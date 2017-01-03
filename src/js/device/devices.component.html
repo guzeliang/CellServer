@@ -1,0 +1,48 @@
+<header></header>
+<div onselectstart="return false">
+    <div class="well well-sm">
+        <div class="container fixed-width">
+            <div class="col-xs-6 col-md-3 input-group pull-right searchPanel">
+                <input type="text" class="form-control" id="searchInput" placeholder="请输入名称" [(ngModel)]='searchWord' />
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-default" id="searchBtn" (click)="search()">搜索</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="container fixed-width">
+        <h3 class="pageInfo"><img src="../../images/header.png" />&nbsp;文件</h3>
+        <div class="panel panel-default">
+            <table class="table table-striped" style="table-layout:fixed;word-wrap:break-word;" id="tblUses">
+                <thead class="thead-color">
+                    <tr>
+                        <th class="col-xs-3" style="cursor:pointer">
+                            描述
+                        </th>
+                        <th class="col-xs-3" style="cursor:pointer">
+                            状态
+                        </th>
+                        <th class="col-xs-3" style="cursor:pointer">
+                            更新时间
+                        </th>
+                        <th class="col-xs-3">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let device of devices">
+                        <td class="col-xs-3">{{device.desc}}</td>
+                        <td class="col-xs-3">{{device.currStatus}}</td>
+                        <td class="col-xs-3">{{device.currTime}}</td>
+                        <td class="col-xs-3">
+                            <a class="gap" href="/iot/edit/v?id={{device.id}}&desc={{device.desc}}">编辑</a>
+                            <a class="gap" href="/iot/stat/v?name={{device.desc}}">统计</a>
+                            <a class="gap" href="/iot/detail/v?id={{device.id}}&desc={{device.desc}}">查看</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <pagination-controls (pageChange)="pageChange($event)"></pagination-controls>
+    </div>
+</div>
+<footer></footer>

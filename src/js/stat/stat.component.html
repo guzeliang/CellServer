@@ -1,0 +1,78 @@
+<header></header>
+<div class="well well-sm">
+    <div>
+        <div class="col-sm-2 col-sm-offset-2">
+            <div class="input-group">
+                <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">starttime</button>
+                    </span>
+                <input type="text" id='starttime' class="form-control" [(ngModel)]="starttime" readonly (click)='showdate($event)'>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="input-group">
+                <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">endtime</button>
+                    </span>
+                <input type="text" class="form-control" id='endtime' [(ngModel)]="endtime" readonly (click)='showdate($event)'>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class=" input-group ">
+                <span class="input-group-btn ">
+                        <button class="btn btn-default " type="button ">max</button>
+                    </span>
+                <input type="text " class="form-control" value='100' [(ngModel)]="max" id='txtMax'>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class=" input-group ">
+                <span class="input-group-btn ">
+                        <button class="btn btn-default " type="button ">min</button>
+                    </span>
+                <input type="text " class="form-control" value='0' [(ngModel)]="min" id='txtMin'>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class=" input-group ">
+                <span class="input-group-btn ">
+                        <button class="btn btn-default " type="button ">step</button>
+                    </span>
+                <input type="text " class="form-control" value="100" [(ngModel)]="step" id='txtStep'>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class=" input-group ">
+                <span class="input-group-addon">placeholder</span>
+                <span class="input-group-addon">
+                        <input type="checkbox" class="checkbox"  [(ngModel)]="placeholder" id='isPlaceholder'>
+                    </span>
+            </div>
+        </div>
+        <button class='btn btn-default' (click)="search()">搜索</button>
+    </div>
+</div>
+<script>
+</script>
+<div style="margin-top:20px; ">
+    <div class="col-sm-2 " role="navigation ">
+        <div class="list-group stat ">
+            <a href="javascript:void(0)" class="list-group-item active "><span></span>
+                    统计</a>
+            <a href="#" (click)="stat( 'temperature') " class="list-group-item temperature "><span class="glyphicon glyphicon-play "></span>
+                    温度</a>
+            <a href="#" (click)="stat( 'gas') " class="list-group-item gas "><span class="glyphicon glyphicon-play "></span>
+                    气体</a>
+            <a href="#" (click)="stat( 'rocker') " class="list-group-item rocker "><span class="glyphicon glyphicon-play "></span>
+                    摇床</a>
+            <a href="#" (click)="stat( 'pump') " class="list-group-item pump "><span class="glyphicon glyphicon-play "></span>
+                    泵</a>
+        </div>
+    </div>
+    <div class="col-sm-10 " ng-controller="controller ">
+        <div onselectstart="return false " class="ng-scope ">
+            <canvas id='myChart'></canvas>
+        </div>
+    </div>
+</div>
+<footer></footer>
