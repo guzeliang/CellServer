@@ -11,16 +11,16 @@ import { NotFoundComponent } from './common/notfound.component';
 export const appRoutes: Routes = [
   { path: 'devices',  component: DevicesComponent },
   { path: 'hello', component: HelloComponent },
-  { path: 'iot/stat/v', component: StatComponent },
-  { path: 'iot/edit/v', component: EditComponent },
-  { path: 'iot/detail/v', component: DeviceDetailComponent },
-  { path: '', redirectTo: '/devices', pathMatch: 'full' },
+  { path: 'iot/stat/v/:desc', component: StatComponent },
+  { path: 'iot/edit/v/:id/:desc', component: EditComponent },
+  { path: 'iot/detail/v/:id/:desc', component: DeviceDetailComponent },
+  { path: '', redirectTo: 'devices', pathMatch: 'full' },
   { path: '**',    component: NotFoundComponent }
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes, {useHash:false})
   ],
   exports: [
     RouterModule

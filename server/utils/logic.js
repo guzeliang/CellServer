@@ -3,12 +3,10 @@ var _ = require('underscore');
 var config = require('../config');
 var moment = require('moment');
 
-function isCanExecute(roomId, command) {
-    if (!roomId || !command) return false;
-    var x = cache.getSocketById(roomId);
+function isCanExecute(client, command) {
 
-    if (!x && !x.payload) return false;
-    var p = x.payload;
+    if (!client || !client.payload) return false;
+    var p = client.payload;
 
     var currStatus = p.CurrStatus;
 
@@ -122,8 +120,7 @@ function checkCultivation(pumps) {
     var errMsg = "";
     var list = _.where(pumps, p => p.IsUseabled); //.sortBy('PumpId');
 
-    if(list.length == 0) 
-    {
+    if (list.length == 0) {
         errMsg = "没有运行的泵，请检测配置";
         return errMsg;
     }

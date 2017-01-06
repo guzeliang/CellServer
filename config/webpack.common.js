@@ -17,8 +17,8 @@ module.exports = {
         'lodash': 'lodash',
         'ng2-pagination': 'ng2-pagination',
         'chart': 'chart.js',
-        'moment': 'moment',
         vendor: [
+            'moment',
             'bootstrap',
             'zone.js',
             'jquery',
@@ -56,13 +56,22 @@ module.exports = {
                 loader: 'html'
             },
             {
-                test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-                loader: 'file?name=images/[name].[hash].[ext]'
+                test: /\.(svg|woff|woff2|ttf|eot)$/,
+                loader: 'file?name=assets/[name].[hash].[ext]'
+            },
+            {
+                test: /\.(png|jpe?g|gif|ico)$/,
+                loader: 'file-loader?name=images/[name].[ext]'
             },
             {
                 test: /\.css$/,
                 include: helpers.root('src', 'css'),
                 loader: ExtractTextPlugin.extract('style', 'css?sourceMap')
+            }, ,
+            {
+                test: /\.css$/,
+                include: helpers.root('src', 'js'),
+                loader: 'raw'
             },
             {
                 test: require.resolve('jquery'), // 此loader配置项的目标是NPM中的jquery
@@ -75,6 +84,7 @@ module.exports = {
     plugins: [
         providePlugin,
         new HtmlWebpackPlugin({
+            favicon: 'src/favicon.ico',
             template: 'src/index.html'
         })
     ]

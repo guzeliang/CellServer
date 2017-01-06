@@ -25,7 +25,7 @@ import {StatService} from './stat/stat.service';
         BrowserModule, 
         FormsModule,
         HttpModule,
-        Ng2PaginationModule,
+        // Ng2PaginationModule,
         AppRoutingModule
     ],
     declarations: [ HeaderComponent, FooterComponent, AppComonent, DevicesComponent, HelloComponent,NotFoundComponent, StatComponent, EditComponent,DeviceDetailComponent],

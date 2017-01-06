@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Headers, Http, Response, URLSearchParams, QueryEncoder } from '@angular/http';
+import { Headers, Http, Response } from '@angular/http';
+import { ActivatedRoute, Params}   from '@angular/router';
 import { NgIf, NgFor} from '@angular/common';
 import {Rocker} from './Rocker';
 import {PumpViewModel} from './PumpViewModel';
@@ -10,6 +11,7 @@ import * as moment from 'moment';
     templateUrl: './device-edit.component.html'
 })
 export class EditComponent implements OnInit {
+    params:any = {};
     Description:string;
     Name:string;
     UserName:string;
@@ -30,7 +32,11 @@ export class EditComponent implements OnInit {
             InitialVolume: 10,
             InitialFlowRate: 5,
             IsUseabled: true,
-            ProcessMode: 'SingleMode'
+            ProcessMode: 'SingleMode',
+            Period:5,
+            FirstSpan:5,
+            Volume:5,
+            FlowRate:5
         };
     Out:PumpViewModel={
             PumpId: 3,
@@ -41,17 +47,23 @@ export class EditComponent implements OnInit {
             InitialVolume: 5,
             InitialFlowRate: 5,
             IsUseabled: true,
-            ProcessMode: 'SingleMode'
+            ProcessMode: 'SingleMode',
+            Period:5,
+            FirstSpan:5,
+            Volume:5,
+            FlowRate:5
         };
 
-    constructor() { }
+    constructor(
+        private route: ActivatedRoute
+    ) {}
 
     initWS(){
-        this.websocket = new WebSocket('ws://192.168.1.110:8103');
+        var _this = this;
+        this.websocket = new WebSocket('ws://' + location.hostname + ':8103');
         this.websocket.onopen = function(evt) {
             console.log('open');
-            var params:any = new URLSearchParams(location.search.slice(1));
-            var id = params.get('id');
+            var id = _this.params['id'];
             var data = {
                 clientId: id
             };
@@ -67,7 +79,7 @@ export class EditComponent implements OnInit {
                 switch(data.action) {
                     case 'saveScheduleBack' :{
                         if (data.data && data.data.code == 'success') {
-                            location.href = '/iot/detail/v' + location.search;
+                            location.href = `/iot/detail/v/${_this.params['id']}/${_this.params['desc']}`;
                         } else {
                             alert(data.data.code)
                             //common.popBy('#btnSave', data.code);
@@ -86,6 +98,9 @@ export class EditComponent implements OnInit {
     }
 
     ngOnInit() { 
+        this.route.params.forEach( (param:Params) => {
+            _.extend(this.params, param);
+        });
         this.initWS();
     }
 
@@ -104,10 +119,15 @@ export class EditComponent implements OnInit {
     }
 
     monitor():void {
-        location.href = '/iot/detail/v' + location.search;
+        location.href = `/iot/detail/v/${this.params['id']}/${this.params['desc']}`;
     }
 
     back():void {
         history.back();
+    }
+
+    setMode(mode:string, flag:string) {
+       this[flag].ProcessMode = mode;
+       return false;
     }
 }

@@ -12,9 +12,11 @@ var Pump = db.define('pump', {
     deviceDesc: {
         type: Sequelize.STRING(50),
         defaultValue: ''
-
     },
     deviceId: {
+        type: Sequelize.STRING(50)
+    },
+    pumpId: {
         type: Sequelize.INTEGER
     },
     direction: {

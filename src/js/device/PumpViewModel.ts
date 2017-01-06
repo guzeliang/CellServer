@@ -8,4 +8,9 @@ export class PumpViewModel {
     InitialFlowRate: Number;
     IsUseabled: Boolean;
     ProcessMode: String;
+    Period:Number;
+    FirstSpan:Number;
+    Volume:Number;
+    FlowRate:Number;
+
 }

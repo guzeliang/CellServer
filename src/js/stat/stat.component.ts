@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Headers, Http, Response, URLSearchParams, QueryEncoder } from '@angular/http';
 import { StatService } from './stat.service';
 var $ = require('jquery');
-var Chart = require('chart.js');
 
 require('../lib/bootstrap-datetimepicker');
 require('../lib/bootstrap-datetimepicker.zh-CN');

@@ -55,31 +55,40 @@
                         <span class="input-group-addon">ml/min</span>
                     </div>
                     <div class='input-group'>
-                        <div dropdown-button type='pumpin'></div>
+                        <div class='btn-group' style='margin-right:5px'>
+                            <button type='button' class='btn btn-default dropdown-toggle' scene='SingleMode' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                                <span class='btn-val'>{{In.ProcessMode}}</span><span class='caret' style='margin-left:3px;'></span>
+                            </button>
+                            <ul class='dropdown-menu'>
+                                <li><a href='#' (click)="setMode('SingleMode', 'In')" scene='SingleMode'>Single Vol</a></li>
+                                <li><a href='#' (click)="setMode('FixedVolumeMode', 'In')" scene='FixedVolumeMode'>Fixed Vol</a></li>
+                                <li><a href='#' (click)="setMode('VariantVolumeMode', 'In')" scene='VariantVolumeMode'>Variant vol</a></li>
+                            </ul>
+                        </div>
                         <div class="checkbox">
                             <label>
                                   <input type="checkbox" [(ngModel)]='In.IsUseabled' />Is Enabled
                                 </label>
                         </div>
                     </div>
-                    <div class="input-group hide scene FixedVolumeMode VariantVolumeMode">
+                    <div class="input-group scene " [hidden]='In.ProcessMode == "SingleMode"'>
                         <span class="input-group-addon">周期</span>
-                        <input type="text" class="form-control" [(ngModel)]='In.Period' value="In.Period" />
+                        <input type="text" class="form-control" [(ngModel)]='In.Period' />
                         <span class="input-group-addon">min</span>
                     </div>
-                    <div class="input-group hide  scene  FixedVolumeMode">
+                    <div class="input-group  scene" [hidden]='In.ProcessMode=="SingleMode" || In.ProcessMode=="VariantVolumeMode"'>
                         <span class="input-group-addon">间隔</span>
-                        <input type="text" class="form-control" [(ngModel)]='In.FirstSpan' value="In.FirstSpan" />
+                        <input type="text" class="form-control" [(ngModel)]='In.FirstSpan' />
                         <span class="input-group-addon  Fixedscene">min</span>
                     </div>
-                    <div class="input-group hide  scene FixedVolumeMode">
+                    <div class="input-group  scene" [hidden]='In.ProcessMode=="SingleMode" || In.ProcessMode=="VariantVolumeMode"'>
                         <span class="input-group-addon">流量</span>
-                        <input type="text" class="form-control" [(ngModel)]='In.Volume' value="In.Volume" />
+                        <input type="text" class="form-control" [(ngModel)]='In.Volume' />
                         <span class="input-group-addon">ml</span>
                     </div>
-                    <div class="input-group hide  scene  FixedVolumeMode">
+                    <div class="input-group  scene" [hidden]='In.ProcessMode=="SingleMode" || In.ProcessMode=="VariantVolumeMode"'>
                         <span class="input-group-addon">流速</span>
-                        <input type="text" class="form-control" [(ngModel)]='In.FlowRate' value="In.FlowRate" />
+                        <input type="text" class="form-control" [(ngModel)]='In.FlowRate' />
                         <span class="input-group-addon">ml/min</span>
                     </div>
 
@@ -112,29 +121,38 @@
                         <span class="input-group-addon">ml/min</span>
                     </div>
                     <div class='input-group'>
-                        <div dropdown-button type='pumpout'></div>
+                        <div class='btn-group' style='margin-right:5px'>
+                            <button type='button' class='btn btn-default dropdown-toggle' scene='SingleMode' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                                <span class='btn-val'>{{Out.ProcessMode}}</span><span class='caret' style='margin-left:3px;'></span>
+                            </button>
+                            <ul class='dropdown-menu'>
+                                <li><a href='#' (click)="setMode('SingleMode', 'Out')" scene='SingleMode'>Single Vol</a></li>
+                                <li><a href='#' (click)="setMode('FixedVolumeMode', 'Out')" scene='FixedVolumeMode'>Fixed Vol</a></li>
+                                <li><a href='#' (click)="setMode('VariantVolumeMode', 'Out')" scene='VariantVolumeMode'>Variant vol</a></li>
+                            </ul>
+                        </div>
                         <div class="checkbox">
                             <label>
                                   <input type="checkbox" [(ngModel)]='Out.IsUseabled' />Is Enabled
                                 </label>
                         </div>
                     </div>
-                    <div class="input-group hide scene FixedVolumeMode VariantVolumeMode">
+                    <div class="input-group  scene" [hidden]='Out.ProcessMode=="SingleMode"'>
                         <span class="input-group-addon">周期</span>
                         <input type="text" class="form-control" [(ngModel)]='Out.Period' value="Out.Period" />
                         <span class="input-group-addon">min</span>
                     </div>
-                    <div class="input-group hide  scene  FixedVolumeMode">
+                    <div class="input-group   scene" [hidden]='Out.ProcessMode=="SingleMode" || Out.ProcessMode=="VariantVolumeMode"'>
                         <span class="input-group-addon">间隔</span>
                         <input type="text" class="form-control" [(ngModel)]='Out.FirstSpan' value="Out.FirstSpan" />
                         <span class="input-group-addon  Fixedscene">min</span>
                     </div>
-                    <div class="input-group hide  scene FixedVolumeMode">
+                    <div class="input-group   scene" [hidden]='Out.ProcessMode=="SingleMode" || Out.ProcessMode=="VariantVolumeMode"'>
                         <span class="input-group-addon">流量</span>
                         <input type="text" class="form-control" [(ngModel)]='Out.Volume' value="Out.Volume" />
                         <span class="input-group-addon">ml</span>
                     </div>
-                    <div class="input-group hide  scene  FixedVolumeMode">
+                    <div class="input-group   scene" [hidden]='Out.ProcessMode=="SingleMode" || Out.ProcessMode=="VariantVolumeMode"'>
                         <span class="input-group-addon">流速</span>
                         <input type="text" class="form-control" [(ngModel)]='Out.FlowRate' value="Out.FlowRate" />
                         <span class="input-group-addon">ml/min</span>

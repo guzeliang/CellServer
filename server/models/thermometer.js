@@ -13,6 +13,9 @@ var Thermometer = db.define('thermometer', {
         type: Sequelize.STRING(50),
         defaultValue: ''
     },
+    deviceId: {
+        type: Sequelize.STRING(50)
+    },
     temperature: {
         type: Sequelize.INTEGER,
         defaultValue: 0

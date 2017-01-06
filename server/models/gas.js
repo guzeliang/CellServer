@@ -12,6 +12,9 @@ var Gas = db.define('gas', {
     sensorId: {
         type: Sequelize.INTEGER
     },
+    deviceId: {
+        type: Sequelize.STRING(50)
+    },
     deviceDesc: {
         type: Sequelize.STRING(50),
         defaultValue: ''

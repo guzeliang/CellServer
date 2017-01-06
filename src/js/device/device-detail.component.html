@@ -1,13 +1,13 @@
 <header></header>
 <div class="well well-sm" style='position:fixed; width:100%; z-index:3;'>
     <div class="container fixed-width">
-        <button type="button" class="btn btn-primary" id="btnStart">
+        <button type="button" class="btn btn-primary" id="btnStart" (click)='start()'>
                     开始
             </button>
-        <button type="button" class="btn btn-default" id="btnPauseLH">
+        <button type="button" class="btn btn-default" id="btnPauseLH" (click)='pause()'>
                 暂停
             </button>
-        <button type="button" class="btn btn-default" id="btnRestart">
+        <button type="button" class="btn btn-default" id="btnRestart" (click)='restart()'>
                 重新开始
             </button>
     </div>
@@ -23,7 +23,7 @@
         <input readonly type='text' class='form-control' id='txtTemp' />
     </div>
 
-    <div id="container" class='col-sm-12'>
+    <div>
         <ul class="runarea">
             <li>
                 <div class='input-group bottom-gap'>
@@ -33,10 +33,16 @@
                 </div>
             </li>
             <li class="pump" id='pumpIn'>
-
+                <p>{{'pump' + Model.In.PumpId}}</p>
+                <p><img src='../../images/isrunning_false.jpg' *ngIf="!Model.In.IsRunning" width="50" height="50" />
+                    <img src='../../images/isrunning_true.jpg' *ngIf="Model.In.IsRunning" width="50" height="50" />{{Model.In.CurrFlowRate + 'ml/min'}}</p>
+                <p>{{Model.In.StatusInfo}}</p>
             </li>
             <li class="pump" id='pumpOut'>
-
+                <p>{{'pump' + Model.Out.PumpId}}</p>
+                <p><img src='../../images/isrunning_false.jpg' *ngIf="!Model.Out.IsRunning" width="50" height="50" />
+                    <img src='../../images/isrunning_true.jpg' *ngIf="Model.Out.IsRunning" width="50" height="50" />{{Model.Out.CurrFlowRate + 'ml/min'}}</p>
+                <p>{{Model.Out.StatusInfo}}</p>
             </li>
         </ul>
     </div>
@@ -49,11 +55,11 @@
             <div class='panel-body'>
                 <div class='input-group bottom-gap'>
                     <span class='input-group-addon'>速度</span>
-                    <input readonly type='text' class='form-control' id='txtSpeed' />
+                    <input readonly type='text' class='form-control' [(ngModel)]="Model.Rocker.Speed" />
                 </div>
                 <div class='input-group'>
                     <span class='input-group-addon'>角度</span>
-                    <input readonly type='text' class='form-control' id='txtAngle' />
+                    <input readonly type='text' class='form-control' [(ngModel)]="Model.Rocker.Angle" />
                 </div>
             </div>
         </div>

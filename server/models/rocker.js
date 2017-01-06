@@ -14,6 +14,9 @@ var Rocker = db.define('rocker', {
         defaultValue: ''
 
     },
+    deviceId: {
+        type: Sequelize.STRING(50)
+    },
     speed: {
         type: Sequelize.INTEGER,
         defaultValue: 0

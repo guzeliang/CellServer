@@ -3,6 +3,7 @@ var common = require('./utils/common');
 var _ = require('lodash');
 var logic = require('./utils/logic');
 var mailHelper = require('./utils/mailHelper');
+var logger = require('./utils/logger');
 var models = require('./models/');
 
 module.exports = function(wss) {
@@ -15,6 +16,7 @@ module.exports = function(wss) {
                 try {
                     var msg = JSON.parse(message);
                     var action = msg.action || 'default';
+                    console.log(action);
                     handler[action](msg.data, ws, wss);
                 } catch (e) {
                     console.log('websocket error:' + e.message || e);
@@ -64,9 +66,15 @@ var browserHandler = {
         }
     },
     command: function(data, socket, wss) {
+        console.log(data);
         if (!data || !socket.roomId) return;
 
-        if (logic.isCanExecute(socket.roomId, data)) {
+        var clients = wss.getSocketsById(socket.roomId, 'iot');
+        if (!clients || !clients.length) {
+            console.log('树莓派客户端未运行');
+            return;
+        }
+        if (logic.isCanExecute(clients[0], data)) {
             wss.broadcastTo(packData('command', data), socket.roomId, 'iot');
         } else {
             socket.send(packData('execCmdFailed', data));
@@ -136,7 +144,8 @@ var iotHandler = {
         }
         models.Pump.create({
             deviceDesc: socket.desc,
-            deviceId: temp.PumpId,
+            deviceId: socket.roomId,
+            pumpId: temp.PumpId,
             direction: temp.Direction,
             createdAt: new Date().getTime(),
             isRunning: temp.IsRunning,
@@ -153,6 +162,7 @@ var iotHandler = {
         socket.payload.Gas = data;
 
         models.Gas.create({
+            deviceId: socket.roomId,
             deviceDesc: socket.desc,
             createdAt: new Date().getTime(),
             strength: data.strength || 0,
@@ -167,12 +177,14 @@ var iotHandler = {
         if (!data) return;
         if (!socket.roomId || !socket.payload) return requireInit(socket);
 
-        socket.payload.Temperature = data;
+        socket.payload.Temperature = data.Temperature;
+        socket.payload.CurrStatus = data.CurrStatus;
 
         models.Thermometer.create({
+            deviceId: socket.roomId,
             deviceDesc: socket.desc,
             createdAt: new Date().getTime(),
-            temperature: data
+            temperature: data.Temperature
         }).then();
 
         wss.broadcastTo(packData('syncData', socket.payload), socket.roomId, 'browser');
@@ -186,6 +198,7 @@ var iotHandler = {
 
         socket.payload.Temperature = data[1];
         models.Thermometer.create({
+            deviceId: socket.roomId,
             deviceDesc: socket.desc,
             createdAt: new Date().getTime(),
             remark: data[0] / 10 + ',' + data[2] / 10,
@@ -202,13 +215,15 @@ var iotHandler = {
         if (!_.isObject(data))
             data = JSON.parse(data);
 
-        socket.payload.Rocker = data;
+        socket.payload.Rocker = data.Rocker;
+        socket.payload.CurrStatus = data.CurrStatus;
 
         models.Rocker.create({
+            deviceId: socket.roomId,
             deviceDesc: socket.desc,
             createdAt: new Date().getTime(),
-            speed: +data.Speed,
-            angle: +data.Angle
+            speed: +data.Rocker.Speed,
+            angle: +data.Rocker.Angle
         }).then();
 
         wss.broadcastTo(packData('syncData', socket.payload), socket.roomId, 'browser');

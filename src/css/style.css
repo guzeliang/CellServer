@@ -424,3 +424,7 @@ body {
     background-color: #ccc;
     border-color: #ccc
 }
+
+*[hidden] {
+    display: none;
+}
