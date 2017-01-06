@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Headers, Http, Response, URLSearchParams, QueryEncoder } from '@angular/http';
+import { ActivatedRoute, Params }   from '@angular/router';
 import { StatService } from './stat.service';
 var $ = require('jquery');
 
@@ -12,24 +13,25 @@ require('../../css/bootstrap-datetimepicker.css');
     templateUrl: './stat.component.html',
 })
 export class StatComponent implements OnInit {
+    params:any = {};
     starttime:string;
     endtime:string;
-    max:string;
-    min:string;
-    step:string;
-    placeholder:string;
-    name:string;
-    type:string;
+    max:Number = 100;
+    min:Number = 0;
+    step:Number = 100;
+    placeholder:boolean = false;
+    id:string;
+    type:string = 'temperature';
 
-    constructor( private http:Http, private service:StatService) {
+    constructor( private http:Http, private service:StatService, private route: ActivatedRoute) {
     }
     
     ngOnInit(): void {
+        this.route.params.forEach( (param:Params) => {
+            _.extend(this.params, param);
+        });
         this.init();
-        this.service.get(location.search.slice(1))
-        .then( res => {
-            this.initChart(res.json());
-        }).catch(err => console.log(err.message || err))
+        this.search();
     }
 
     private initChart(xdata:any):void {
@@ -119,17 +121,20 @@ export class StatComponent implements OnInit {
     }
 
     private init():void {
-        
+        console.log(this.params)
+        this.id = this.params['id'];
         document.title="统计";
         var params = new URLSearchParams(location.search.slice(1));
-        this.name = params.get('name');
-        this.type = params.get('type') || 'temperature';
-        this.starttime = params.get('starttime');
-        this.endtime = params.get('endtime');
-        this.max = params.get('max');
-        this.min = params.get('min');
-        this.step = params.get('step');
-        this.placeholder = params.get('placeholder');
+        if(params) {
+            this.type = params.get('type') || 'temperature';
+            this.starttime = params.get('starttime');
+            this.endtime = params.get('endtime');
+            this.max = +params.get('max') || 100;
+            this.min = +params.get('min') || 0;
+            this.step = +params.get('step') || 100;
+            this.placeholder = !!params.get('placeholder');
+        }
+        
 
         $('.' + this.type).addClass('select');
         $('#starttime,#endtime').datetimepicker({
@@ -140,13 +145,10 @@ export class StatComponent implements OnInit {
         });
     }
 
-    stat(type:string):boolean{
-        console.log(type, location.search.slice(1))
-        var params = new URLSearchParams(location.search.slice(1));
-        var name = params.get('name');
-        
-        location.href = `/iot/stat/v?name=${name}&type=${type}`;
-        return false;
+    stat(type:string):void{
+        this.type = type;
+        $('.' + this.type).addClass('select').siblings().removeClass('select');
+        this.search();
     }
 
     showdate(evt:any):void{
@@ -156,8 +158,8 @@ export class StatComponent implements OnInit {
 
     search():void {
         this.type = this.type || 'temperature';
-        if(!this.name) return ;
-        var searchUrl = `name=${this.name}&type=${this.type}`
+        if(!this.id) return ;
+        var searchUrl = `name=${this.id}&type=${this.type}`
 
          if (this.starttime) {
             searchUrl += '&starttime=' + this.starttime;
@@ -187,6 +189,9 @@ export class StatComponent implements OnInit {
             searchUrl += '&placeholder=' + this.placeholder;
         }
     
-        location.href = '/iot/stat/v?' + searchUrl;
+        this.service.get(searchUrl)
+        .then( res => {
+            this.initChart(res.json());
+        }).catch(err => console.log(err.message || err))
     }
 }
