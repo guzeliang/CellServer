@@ -5,6 +5,7 @@ var commonConfig = require('./webpack.common.js');
 var helpers = require('./helpers');
 
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
+var port = process.env.IOT_PORT || 6003;
 
 module.exports = webpackMerge(commonConfig, {
     devtool: 'source-map',
@@ -31,7 +32,8 @@ module.exports = webpackMerge(commonConfig, {
         new ExtractTextPlugin('[name].[hash].css'),
         new webpack.DefinePlugin({
             'process.env': {
-                'ENV': JSON.stringify(ENV)
+                'ENV': JSON.stringify(ENV),
+                'PORT': JSON.stringify(port)
             }
         })
     ]

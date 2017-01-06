@@ -1,7 +1,10 @@
+var webpack = require('webpack');
 var webpackMerge = require('webpack-merge');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var commonConfig = require('./webpack.common.js');
 var helpers = require('./helpers');
+
+var port = process.env.IOT_PORT || 6003;
 
 module.exports = webpackMerge(commonConfig, {
     devtool: 'cheap-module-eval-source-map',
@@ -14,7 +17,12 @@ module.exports = webpackMerge(commonConfig, {
     },
 
     plugins: [
-        new ExtractTextPlugin('[name].css')
+        new ExtractTextPlugin('[name].css'),
+        new webpack.DefinePlugin({
+            'process.env': {
+                'PORT': JSON.stringify(port)
+            }
+        })
     ],
 
     devServer: {
