@@ -30,12 +30,6 @@ module.exports = webpackMerge(commonConfig, {
         }),
         new ExtractTextPlugin('[name].[hash].css'),
         new webpack.DefinePlugin({
-            __DEV__: true,
-            PRODUCTION: JSON.stringify(true),
-            VERSION: JSON.stringify("5fa3b9"),
-            BROWSER_SUPPORTS_HTML5: true,
-            TWO: "1+1",
-            "typeof window": JSON.stringify("object"),
             'process.env': {
                 'ENV': JSON.stringify(ENV)
             }

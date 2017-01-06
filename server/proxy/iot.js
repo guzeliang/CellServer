@@ -9,7 +9,7 @@ exports.resolveTemperature = function(name, step, max, min, startTime, endTime, 
     var query = {
         raw: true,
         where: {
-            deviceDesc: name
+            deviceId: name
         }
     };
 
@@ -96,7 +96,7 @@ exports.resolveGas = function(name, step, max, min, startTime, endTime, exclude,
     var query = {
         raw: true,
         where: {
-            deviceDesc: name,
+            deviceId: name,
             sensorId: sensorId
         }
     };
@@ -150,7 +150,7 @@ exports.resolveRocker = function(name, step, max, min, startTime, endTime, exclu
     var query = {
         raw: true,
         where: {
-            deviceDesc: name
+            deviceId: name
         }
     };
     if (startTime || endTime) {
@@ -201,7 +201,7 @@ exports.resolvePump = function(name, step, max, min, startTime, endTime, exclude
     var query = {
         raw: true,
         where: {
-            deviceDesc: name
+            deviceId: name
         }
     };
     if (startTime || endTime) {

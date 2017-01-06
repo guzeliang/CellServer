@@ -5,6 +5,8 @@ import { Headers, Http, Response} from '@angular/http';
 import {SysStatusEnum} from './SysStatusEnum';
 let styles = String(require('./device-detail.component.css'));
 var $ = require('jquery');
+require('../../images/isrunning_false.jpg');
+require('../../images/isrunning_true.jpg');
 
 @Component({
     selector: 'detail',
@@ -31,7 +33,7 @@ export class DeviceDetailComponent implements OnInit {
             Direction: 0,
             CurrFlowRate: 0,
             IsRunning: false,
-            img:'../../images/isrunning_false.jpg',
+            img:'/images/isrunning_false.jpg',
             StatusInfo: null
         },
         Out: {
@@ -39,7 +41,7 @@ export class DeviceDetailComponent implements OnInit {
             Direction: 1,
             CurrFlowRate: 0,
             IsRunning: false,
-            img:'../../images/isrunning_false.jpg',
+            img:'/images/isrunning_false.jpg',
             StatusInfo: null
         }
     };
@@ -49,7 +51,10 @@ export class DeviceDetailComponent implements OnInit {
 
     initWS(){
         var _this = this;
-        this.websocket = new WebSocket('ws://' + location.hostname + ':8103');
+
+        var port = process.env.ENV ? 6003 : 8103;
+        this.websocket = new WebSocket(`ws://${location.hostname}:${port}`);
+
         this.websocket.onopen = function(evt) {
             console.log('open');
             var id = _this.params['id'];
@@ -97,6 +102,7 @@ export class DeviceDetailComponent implements OnInit {
         
         this.Model.CurrStatus = data.CurrStatus;
         this.Model.CurrVolume = data.CurrVolume;
+        this.Model.Temperature = data.Temperature;
         this.Model.Rocker.Speed = data.Rocker.Speed;
         this.Model.Rocker.Angle = data.Rocker.Angle;
         this.Model.In.CurrFlowRate = data.In.CurrFlowRate;

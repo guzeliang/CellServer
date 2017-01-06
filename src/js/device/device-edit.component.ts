@@ -60,7 +60,9 @@ export class EditComponent implements OnInit {
 
     initWS(){
         var _this = this;
-        this.websocket = new WebSocket('ws://' + location.hostname + ':8103');
+        
+        var port = process.env.ENV ? 6003 : 8103;
+        this.websocket = new WebSocket(`ws://${location.hostname}:${port}`);
         this.websocket.onopen = function(evt) {
             console.log('open');
             var id = _this.params['id'];

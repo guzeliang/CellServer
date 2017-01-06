@@ -16,11 +16,11 @@
 
     <div class='input-group bottom-gap col-sm-12'>
         <span class='input-group-addon'>状态：</span>
-        <input readonly type='text' class='form-control' id='txtStatus' />
+        <input readonly type='text' class='form-control' id='txtStatus' [(ngModel)]="Model.CurrStatus" />
     </div>
     <div class='input-group bottom-gap'>
         <span class='input-group-addon'>温度：</span>
-        <input readonly type='text' class='form-control' id='txtTemp' />
+        <input readonly type='text' class='form-control' id='txtTemp' [(ngModel)]="Model.Temperature" />
     </div>
 
     <div>
@@ -28,20 +28,18 @@
             <li>
                 <div class='input-group bottom-gap'>
                     <span class='input-group-addon'>当前体积：</span>
-                    <input readonly type='text' id='txtCurrVolume' class='form-control' />
+                    <input readonly type='text' id='txtCurrVolume' class='form-control' [(ngModel)]="Model.CurrVolume" />
                     <span class="input-group-addon">ml</span>
                 </div>
             </li>
             <li class="pump" id='pumpIn'>
                 <p>{{'pump' + Model.In.PumpId}}</p>
-                <p><img src='../../images/isrunning_false.jpg' *ngIf="!Model.In.IsRunning" width="50" height="50" />
-                    <img src='../../images/isrunning_true.jpg' *ngIf="Model.In.IsRunning" width="50" height="50" />{{Model.In.CurrFlowRate + 'ml/min'}}</p>
+                <p><img [src]='Model.In.img' width="50" height="50" />{{Model.In.CurrFlowRate + 'ml/min'}}</p>
                 <p>{{Model.In.StatusInfo}}</p>
             </li>
             <li class="pump" id='pumpOut'>
                 <p>{{'pump' + Model.Out.PumpId}}</p>
-                <p><img src='../../images/isrunning_false.jpg' *ngIf="!Model.Out.IsRunning" width="50" height="50" />
-                    <img src='../../images/isrunning_true.jpg' *ngIf="Model.Out.IsRunning" width="50" height="50" />{{Model.Out.CurrFlowRate + 'ml/min'}}</p>
+                <p><img [src]='Model.Out.img' width="50" height="50" />{{Model.Out.CurrFlowRate + 'ml/min'}}</p>
                 <p>{{Model.Out.StatusInfo}}</p>
             </li>
         </ul>
