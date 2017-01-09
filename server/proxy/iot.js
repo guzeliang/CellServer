@@ -91,13 +91,11 @@ exports.resolveTemperature = function(name, step, max, min, startTime, endTime, 
 exports.resolveGas = function(name, step, max, min, startTime, endTime, exclude, placeholder, sensorId) {
     max = max || 100;
     min = min || 0;
-    sensorId = sensorId || 145;
 
     var query = {
         raw: true,
         where: {
-            deviceId: name,
-            sensorId: sensorId
+            deviceId: name
         }
     };
     if (startTime || endTime) {
@@ -116,31 +114,39 @@ exports.resolveGas = function(name, step, max, min, startTime, endTime, exclude,
         query.where.strength = { gte: min, lte: max };
     }
 
-    query.attributes = ['createdAt', 'strength', 'flowrate'];
+    query.attributes = ['createdAt', 'strength', 'flowrate', 'sensorId'];
     return models.Gas.findAll(query).then(docs => {
-        var xdata = {
-            time: [],
-            data0: [],
-            data: [],
+        var tdata = {
+            g145: {
+                time: [],
+                data0: [],
+                data: [],
+            },
+            g146: {
+                time: [],
+                data0: [],
+                data: [],
+            }
         }
 
         for (var i = 0; i < docs.length; i += step) {
             var each = docs[i];
-
-            if (each.strength > max || each.strength < min) {
-                if (placeholder) {
-                    xdata.data0.push(null);
-                    xdata.data.push(null);
+            if (tdata['g' + each.sensorId]) {
+                if (each.strength > max || each.strength < min) {
+                    if (placeholder) {
+                        tdata['g' + each.sensorId].data0.push(null);
+                        tdata['g' + each.sensorId].data.push(null);
+                    }
+                } else {
+                    tdata['g' + each.sensorId].data0.push(each.flowrate);
+                    tdata['g' + each.sensorId].data.push(each.strength);
                 }
-            } else {
-                xdata.data0.push(each.flowrate);
-                xdata.data.push(each.strength);
-            }
 
-            xdata.time.push(moment(each.createdAt).format('YYYY-MM-DD HH:mm:ss'));
+                tdata['g' + each.sensorId].time.push(moment(each.createdAt).format('YYYY-MM-DD HH:mm:ss'));
+            }
         }
 
-        return xdata;
+        return tdata;
     })
 }
 

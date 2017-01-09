@@ -34,9 +34,9 @@ export class StatComponent implements OnInit {
         this.search();
     }
 
-    private initChart(xdata:any):void {
+    private initChart(xdata:any, canvasId:string):void {
         console.log(xdata);
-        var cvs = document.getElementById('myChart') as HTMLCanvasElement;
+        var cvs = document.getElementById(canvasId) as HTMLCanvasElement;
         var ctx = cvs.getContext('2d');
         var params:any = new URLSearchParams(location.search.slice(1));
         var temperaturemode = params.get('temperaturemode');
@@ -157,6 +157,7 @@ export class StatComponent implements OnInit {
     }
 
     search():void {
+        var that = this;
         this.type = this.type || 'temperature';
         if(!this.id) return ;
         var searchUrl = `name=${this.id}&type=${this.type}`
@@ -191,7 +192,15 @@ export class StatComponent implements OnInit {
     
         this.service.get(searchUrl)
         .then( res => {
-            this.initChart(res.json());
+            var data = res.json();
+            if(that.type == 'gas') {
+                this.initChart(data['g145'], 'myChart');
+                this.initChart(data['g146'], 'myChart1');
+                $('#myChart1').show();
+            } else {
+                $('#myChart1').hide();
+                this.initChart(res.json(), 'myChart');
+            }
         }).catch(err => console.log(err.message || err))
     }
 }
