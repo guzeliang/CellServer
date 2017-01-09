@@ -65,13 +65,13 @@ exports.getPage = function(req, res, next) {
         var docs = result.rows;
         var count = result.count;
         docs.forEach(item => {
-            var p = cache.getSocketById(item.clientId);
-            if (p) {
+            var p = wss.getSocketsById(item.clientId, 'iot');
+            if (p && p.length) {
                 t.push({
-                    id: p.roomId,
-                    desc: p.desc,
-                    currTime: moment(p.CurrTime).format('YYYY-MM-DD HH:mm:ss'),
-                    currStatus: p.payload.CurrStatus || 'Unknown'
+                    id: p[0].roomId,
+                    desc: p[0].desc,
+                    currTime: moment(p[0].CurrTime).format('YYYY-MM-DD HH:mm:ss'),
+                    currStatus: p[0].payload.CurrStatus || 'Unknown'
                 });
             } else {
                 t.push({
@@ -91,8 +91,8 @@ exports.getPage = function(req, res, next) {
 
 exports.getDetail = function(req, res, next) {
     var id = req.query.id;
-    var p = cache.getSocketById(id);
-    if (p && p.payload) {
+    var p = wss.getSocketsById(item.clientId, 'iot');
+    if (p && p.length && p[0].payload) {
         res.json(jsonHelper.getSuccess(p.payload));
     } else {
         res.json(jsonHelper.getError('cache not exists'))

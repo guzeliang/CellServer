@@ -1,0 +1,22 @@
+项目启动流程
+
+//创建数据库
+mysql -uroot -p1234
+mysql > create database iotserver;
+
+npm install -g typescript
+npm install -g webpack
+npm install -g typings
+
+下载 phantomjs并添加环境变量
+npm install
+
+测试是否可以正常使用
+npm start
+
+编译项目并测试是否可用
+npm run build
+npm run start:srv
+
+正式部署项目
+pm2 server/bin/www
