@@ -8,3 +8,4 @@ files/*
 start.bat
 npm-debug.log
 npm-debug.log.*
+public/*
