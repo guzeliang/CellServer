@@ -91,6 +91,12 @@ exports.resolveTemperature = function(name, step, max, min, startTime, endTime, 
 exports.resolveGas = function(name, step, max, min, startTime, endTime, exclude, placeholder, sensorId) {
     max = max || 100;
     min = min || 0;
+    step = step || 100;
+
+    if (step % 2 == 0) {
+        step += 1;
+    }
+
 
     var query = {
         raw: true,

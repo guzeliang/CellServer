@@ -23,6 +23,9 @@ export class StatComponent implements OnInit {
     id:string;
     type:string = 'temperature';
 
+    myChart:Chart;
+    myChart1:Chart;
+
     constructor( private http:Http, private service:StatService, private route: ActivatedRoute) {
     }
     
@@ -34,7 +37,7 @@ export class StatComponent implements OnInit {
         this.search();
     }
 
-    private initChart(xdata:any, canvasId:string):void {
+    private initChart(xdata:any, canvasId:string):Chart {
         console.log(xdata);
         var cvs = document.getElementById(canvasId) as HTMLCanvasElement;
         var ctx = cvs.getContext('2d');
@@ -88,7 +91,7 @@ export class StatComponent implements OnInit {
             }
         }
 
-        var myChart = new Chart(cvs.getContext('2d'), {
+       return new Chart(cvs.getContext('2d'), {
             type: 'line',
             data: {
                 labels: xdata.time,
@@ -148,6 +151,12 @@ export class StatComponent implements OnInit {
     stat(type:string):void{
         this.type = type;
         $('.' + this.type).addClass('select').siblings().removeClass('select');
+        if(this.myChart ) {
+            this.myChart.clear();
+        }
+        if(this.myChart1) {
+            this.myChart1.clear();
+        }
         this.search();
     }
 
@@ -194,11 +203,9 @@ export class StatComponent implements OnInit {
         .then( res => {
             var data = res.json();
             if(that.type == 'gas') {
-                this.initChart(data['g145'], 'myChart');
-                this.initChart(data['g146'], 'myChart1');
-                $('#myChart1').show();
+                this.myChart = this.initChart(data['g145'], 'myChart');
+                this.myChart1 = this.initChart(data['g146'], 'myChart1');
             } else {
-                $('#myChart1').hide();
                 this.initChart(res.json(), 'myChart');
             }
         }).catch(err => console.log(err.message || err))
