@@ -29,7 +29,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let device of devices">
+                    <tr *ngFor="let device of devices  | paginate: {
+                                                      itemsPerPage: pageSize,
+                                                      currentPage: pageIndex,
+                                                      totalItems: recordCount }">
                         <td class="col-xs-3">{{device.desc}}</td>
                         <td class="col-xs-3">{{device.currStatus}}</td>
                         <td class="col-xs-3">{{device.currTime}}</td>
