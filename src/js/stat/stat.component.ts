@@ -128,6 +128,12 @@ export class StatComponent implements OnInit {
         this.id = this.params['id'];
         document.title="统计";
         var params = new URLSearchParams(location.search.slice(1));
+        $('#starttime,#endtime').datetimepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd hh:ii',
+            language: 'zh-CN',
+            initialDate: new Date()
+        });
         if(params) {
             this.type = params.get('type') || 'temperature';
             this.starttime = params.get('starttime');
@@ -138,14 +144,7 @@ export class StatComponent implements OnInit {
             this.placeholder = !!params.get('placeholder');
         }
         
-
         $('.' + this.type).addClass('select');
-        $('#starttime,#endtime').datetimepicker({
-            autoclose: true,
-            format: 'yyyy-mm-dd hh:ii',
-            language: 'zh-CN',
-            initialDate: new Date()
-        });
     }
 
     stat(type:string):void{
