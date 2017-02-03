@@ -44,8 +44,8 @@ exports.stat = function(req, res, next) {
 }
 
 exports.getPage = function(req, res, next) {
-    var pageSize = +req.query.pageSize || 10;
-    var pageIndex = +req.query.pageIndex || 1;
+    var pageSize = +req.query.pagesize || 10;
+    var pageIndex = +req.query.pageindex || 1;
     var firNum = (pageIndex - 1) * pageSize;
     var keyword = req.query.keyword;
 
