@@ -3,13 +3,18 @@ import {BrowserModule} from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 import { HttpModule }   from '@angular/http';
 
+
 import { AppRoutingModule } from './app-routing.module';
+
+import {PaginatePipe} from 'ng2-pagination/dist/paginate.pipe';
+import {PaginationControlsComponent} from 'ng2-pagination/dist/pagination-controls.component';
+import {PaginationControlsDirective} from 'ng2-pagination/dist/pagination-controls.directive';
+import {PaginationService} from 'ng2-pagination/dist/pagination.service';
 
 import {AppComonent} from './app.component';
 import {HeaderComponent} from './common/app.header.component';
 import {FooterComponent} from './common/app.footer.component';
 import { NotFoundComponent } from './common/notfound.component';
-import {Ng2PaginationModule} from 'ng2-pagination';
 
 import {DevicesComponent} from './device/devices.component';
 import {EditComponent} from './device/device-edit.component';
@@ -25,11 +30,23 @@ import {StatService} from './stat/stat.service';
         BrowserModule, 
         FormsModule,
         HttpModule,
-        // Ng2PaginationModule,
         AppRoutingModule
     ],
-    declarations: [ HeaderComponent, FooterComponent, AppComonent, DevicesComponent, HelloComponent,NotFoundComponent, StatComponent, EditComponent,DeviceDetailComponent],
-    providers: [DeviceService, StatService],
+    declarations: [ 
+        HeaderComponent, 
+        FooterComponent, 
+        AppComonent, 
+        DevicesComponent, 
+        HelloComponent,
+        NotFoundComponent, 
+        StatComponent, 
+        EditComponent,
+        DeviceDetailComponent,
+        PaginatePipe,
+        PaginationControlsComponent,
+        PaginationControlsDirective
+    ],
+    providers: [DeviceService, StatService,PaginationService],
     bootstrap:    [ AppComonent  ]
 })
 
