@@ -11,7 +11,7 @@ import {DeviceService} from './device.service';
 export class DevicesComponent implements OnInit {
     devices: Device[];
     recordCount:number;
-    pageSize:number = 5;
+    pageSize:number = 10;
     pageIndex:number = 1;
     searchWord:string="";
 
@@ -48,7 +48,6 @@ export class DevicesComponent implements OnInit {
     }
     
     ngOnInit(): void {
-        document.title="hello world";
         this.service.page({pagesize:this.pageSize, pageindex:this.pageIndex})
             .then( res => {
                     this.devices = res.json().result as  Device[];
