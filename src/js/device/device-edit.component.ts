@@ -106,6 +106,12 @@ export class EditComponent implements OnInit {
         this.initWS();
     }
 
+    ngOnDestroy() {
+        if(this.websocket) {
+            this.websocket.close();
+        }
+    }
+
     save():void {
         var data = {
             Description: this.Description || '',

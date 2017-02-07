@@ -1,15 +1,15 @@
 <header></header>
 <div class="well well-sm" style='position:fixed; width:100%; z-index:3;'>
     <div class="container fixed-width">
-        <button type="button" class="btn btn-primary" id="btnStart" (click)='start()'>
-                    开始
-            </button>
-        <button type="button" class="btn btn-default" id="btnPauseLH" (click)='pause()'>
-                暂停
-            </button>
+        <button type="button" class="btn btn-primary" disabled id="btnStart" (click)='start()'>
+            开始
+        </button>
+        <button type="button" class="btn btn-default" disabled id="btnPauseLH" (click)='pause()'>
+            暂停
+        </button>
         <button type="button" class="btn btn-default" id="btnRestart" (click)='restart()'>
-                重新开始
-            </button>
+            重新开始
+        </button>
     </div>
 </div>
 <div class="container fixed-width" style="padding-top:80px;">
@@ -22,50 +22,94 @@
         <span class='input-group-addon'>温度：</span>
         <input readonly type='text' class='form-control' id='txtTemp' [(ngModel)]="Model.Temperature" />
     </div>
-
-    <div>
-        <ul class="runarea">
-            <li>
-                <div class='input-group bottom-gap'>
-                    <span class='input-group-addon'>当前体积：</span>
-                    <input readonly type='text' id='txtCurrVolume' class='form-control' [(ngModel)]="Model.CurrVolume" />
-                    <span class="input-group-addon">ml</span>
+    <div class='area'>
+        <div class='clearfix'>
+            <div class='gas-area'>
+                <div class='gas-item'>
+                    <span class='gas-name'>AIR</span>
+                    <span class='gas-p'>0.001pm</span>
+                    <span class='circle' style='background:blue'></span>
+                    <span class='h-line' style='position:relative;top:10px; left:20px; width:50px; background:blue;'></span>
                 </div>
-            </li>
-            <li class="pump" id='pumpIn'>
-                <p>{{'pump' + Model.In.PumpId}}</p>
-                <p><img [src]='Model.In.img' width="50" height="50" />{{Model.In.CurrFlowRate + 'ml/min'}}</p>
-                <p>{{Model.In.StatusInfo}}</p>
-            </li>
-            <li class="pump" id='pumpOut'>
-                <p>{{'pump' + Model.Out.PumpId}}</p>
-                <p><img [src]='Model.Out.img' width="50" height="50" />{{Model.Out.CurrFlowRate + 'ml/min'}}</p>
-                <p>{{Model.Out.StatusInfo}}</p>
-            </li>
-        </ul>
-    </div>
-
-    <div class='col-sm-12' style="margin:10px 0;padding:0px;">
-        <div class='panel panel-default'>
-            <div class='panel-heading'>
-                摇床
+                <div class='gas-item'>
+                    <span class='gas-name'>O2</span>
+                    <span class='gas-p'></span>
+                    <span class='circle' style='background:blue'></span>
+                    <span class='h-line' style='position:relative;top:10px; left:20px; width:50px; background:blue;'></span>
+                </div>
+                <div class='gas-item'>
+                    <span class='gas-name'>N2</span>
+                    <span class='gas-p'></span>
+                    <span class='circle' style='background:blue'></span>
+                    <span class='h-line' style='position:relative;top:10px; left:20px; width:50px; background:blue;'></span>
+                </div>
+                <div class='gas-item'>
+                    <span class='gas-name'>CO2</span>
+                    <span class='gas-p'></span>
+                    <span class='circle' style='background:blue'></span>
+                    <span class='h-line' style='position:relative;top:10px; left:20px; width:50px; background:blue;'></span>
+                </div>
+                <div class='v-line' style='position:absolute; height:200px; top:10px; left:196px; background:blue;'></div>
             </div>
-            <div class='panel-body'>
-                <div class='input-group bottom-gap'>
-                    <span class='input-group-addon'>速度</span>
-                    <input readonly type='text' class='form-control' [(ngModel)]="Model.Rocker.Speed" />
+            <div class='sys-area'>
+                <div class='v-line' style='position:absolute; height:200px; top:10px;'></div>
+                <div class='sys-item'>
+                    <span class='h-line' style='position:relative;top:10px; width:30px;'></span>
+                    <span class='sys-name'>温度</span>
+                    <span class='sys-p'>20.0</span>
                 </div>
-                <div class='input-group'>
-                    <span class='input-group-addon'>角度</span>
-                    <input readonly type='text' class='form-control' [(ngModel)]="Model.Rocker.Angle" />
+                <div class='sys-item'>
+                    <span class='h-line' style='position:relative;top:10px; width:30px;'></span>
+                    <span class='sys-name'>溶液体积</span>
+                    <span class='sys-p'>20.0</span>
                 </div>
+                <div class='sys-item'>
+                    <span class='h-line' style='position:relative;top:10px; width:30px;'></span>
+                    <span class='sys-name'>气体浓度</span>
+                    <span class='sys-p'>20.0</span>
+                </div>
+            </div>
+        </div>
+        <div class='rocker-area'>
+            <div class='rocker'>
+                <div id='rockerTop' data-rotation="0" class='rocker-top'></div>
+                <div class='triangle-up' style='position:relative; left:43px;'></div>
+                <div class='rocker-bottom'>
+                    <div class='rocker-speed'>
+                        <span>速度</span>
+                        <p>5</p>
+                    </div>
+                    <div class='rocker-angle'>
+                        <span>角度</span>
+                        <p>10</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='pump clearfix'>
+            <div class='pump-in'>
+                <div class='pump-in-line'>
+                    <div class='v-line'></div>
+                    <div class='h-line'></div>
+                </div>
+                <div class='pump-in-status'>
+                    <p>进泵(ml/min)</p>
+                    <span>0.0</span>
+                </div>
+                <span id='pumpInRun' class='pump-in-run circle' style='background:orange'></span>
+            </div>
+            <div class='pump-out'>
+                <div class='pump-out-line'>
+                    <div class='v-line'></div>
+                    <div class='h-line'></div>
+                </div>
+                <div class='pump-out-status'>
+                    <p>出泵(ml/min)</p>
+                    <span>0.0</span>
+                </div>
+                <span id='pumpOutRun' class='pump-out-run circle' style='background:darkgreen'></span>
             </div>
         </div>
     </div>
 </div>
-<script type="text/template" id='tmplPump'>
-    <p>{0}</p>
-    <p><img src='{3}' width="50" height="50" />{1} ml/min</p>
-    <p>{2}</p>
-</script>
 <footer></footer>

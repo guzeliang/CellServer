@@ -19,6 +19,7 @@ module.exports = {
         'chart': 'chart.js',
         vendor: [
             'moment',
+            'tween.js',
             'bootstrap',
             'zone.js',
             'jquery',
