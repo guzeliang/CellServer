@@ -12,10 +12,7 @@ import { Headers, Http, Response } from '@angular/http';
                 <a class="navbar-brand"  routerLink="/devices" style="margin-top:-4px;"><i class="glyphicon glyphicon-home"></i> 设备管理</a>
             </div>
             <div class=" navbar-collapse">
-                <ul class="nav navbar-nav" id="headNav">
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                </ul>
+               
             </div>
         </div>
     </div>

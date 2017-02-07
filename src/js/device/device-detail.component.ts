@@ -134,46 +134,46 @@ export class DeviceDetailComponent implements OnInit {
     }
 
     switchCommand(status:any):void {
-    switch (status) {
-        case SysStatusEnum.Unknown:
-        case SysStatusEnum.Discarding:
-        case SysStatusEnum.Discarded:
-        case SysStatusEnum.Starting:
-        case SysStatusEnum.Pausing:
-        case SysStatusEnum.Completed:
-            {
-                $('#btnStart').attr('disabled', 'disabled');
-                $('#btnPauseLH').attr('disabled', 'disabled');
-                $('#btnPauseAll').attr('disabled', 'disabled');
-            }
-            break;
-
-        case SysStatusEnum.Ready:
-            {
-                $('#btnStart').removeAttr('disabled');
-
-                $('#btnPauseLH').attr('disabled', 'disabled');
-                $('#btnPauseAll').attr('disabled', 'disabled');
-            }
-            break;
-
-        case SysStatusEnum.Paused:
-            {
-                $('#btnStart').removeAttr('disabled');
-                $('#btnPauseLH').attr('disabled', 'disabled');
-                $('#btnPauseAll').attr('disabled', 'disabled');
-            }
-            break;
-
-        case SysStatusEnum.Running:
-            {
-                $('#btnStart').attr('disabled', 'disabled');
-                $('#btnPauseLH').removeAttr('disabled');
-                $('#btnPauseAll').removeAttr('disabled');
-            }
-            break;
-        default:
-            break;
+        switch (status) {
+            case SysStatusEnum.Unknown:
+            case SysStatusEnum.Discarding:
+            case SysStatusEnum.Discarded:
+            case SysStatusEnum.Starting:
+            case SysStatusEnum.Pausing:
+            case SysStatusEnum.Completed:
+                {
+                    $('#btnStart').attr('disabled', 'disabled');
+                    $('#btnPauseLH').attr('disabled', 'disabled');
+                    $('#btnPauseAll').attr('disabled', 'disabled');
+                }
+                break;
+    
+            case SysStatusEnum.Ready:
+                {
+                    $('#btnStart').removeAttr('disabled');
+    
+                    $('#btnPauseLH').attr('disabled', 'disabled');
+                    $('#btnPauseAll').attr('disabled', 'disabled');
+                }
+                break;
+    
+            case SysStatusEnum.Paused:
+                {
+                    $('#btnStart').removeAttr('disabled');
+                    $('#btnPauseLH').attr('disabled', 'disabled');
+                    $('#btnPauseAll').attr('disabled', 'disabled');
+                }
+                break;
+    
+            case SysStatusEnum.Running:
+                {
+                    $('#btnStart').attr('disabled', 'disabled');
+                    $('#btnPauseLH').removeAttr('disabled');
+                    $('#btnPauseAll').removeAttr('disabled');
+                }
+                break;
+            default:
+                break;
+        }
     }
-}
 }
