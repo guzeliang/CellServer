@@ -17,7 +17,7 @@ require('../../images/isrunning_true.jpg');
 })
 export class DeviceDetailComponent implements OnInit {
     inCoords = { x: 100, y: 192 };
-	outCoords = { x: 175, y: 22 };
+	outCoords = { x: 155, y: 22 };
     tweenIn1:TWEEN.Tween;
     tweenIn2:TWEEN.Tween;
     tweenIn3:TWEEN.Tween;
@@ -189,11 +189,11 @@ export class DeviceDetailComponent implements OnInit {
 
     stopPumpOutAnimate() {
         this.tweenOut1.stop();
-	    this.outCoords = { x: 175, y: 22 };
+	    this.outCoords = { x: 155, y: 22 };
         
          $('#pumpOutRun').css({
             top:22,
-            right:175
+            right:155
         })
     }
 
@@ -204,7 +204,7 @@ export class DeviceDetailComponent implements OnInit {
     initPumpInAnimate() {
         var _this = this;
         this.tweenIn1 = new TWEEN.Tween(this.inCoords)
-            .to({ x: 136, y: 192 }, 500)
+            .to({ x: 116, y: 192 }, 500)
             .onStop(function() {
                  _this.inCoords = { x: 100, y: 192 };
                 this.y = _this.inCoords.y;
@@ -221,7 +221,7 @@ export class DeviceDetailComponent implements OnInit {
                 })
             })
         this.tweenIn2  = new TWEEN.Tween(this.inCoords)
-            .to({ x: 136, y: -6 }, 2000)
+            .to({ x: 116, y: -6 }, 2000)
             .onStop(function() {
                  _this.inCoords = { x: 100, y: 192 };
                 this.y = _this.inCoords.y;
@@ -239,7 +239,7 @@ export class DeviceDetailComponent implements OnInit {
             })
 
         this.tweenIn3  = new TWEEN.Tween(this.inCoords)
-            .to({ x: 175, y: -6 }, 500)
+            .to({ x: 155, y: -6 }, 500)
             .onStop(function() {
                  _this.inCoords = { x: 100, y: 192 };
                 this.y = _this.inCoords.y;
@@ -257,7 +257,7 @@ export class DeviceDetailComponent implements OnInit {
             })
 
         this.tweenIn4  = new TWEEN.Tween(this.inCoords)
-            .to({ x: 175, y: 22 }, 500)
+            .to({ x: 155, y: 22 }, 500)
             .onComplete(function() {
                 _this.inCoords = { x: 100, y: 192 };
                 this.y = _this.inCoords.y;
@@ -293,9 +293,9 @@ export class DeviceDetailComponent implements OnInit {
     initPumpOutAnimate() {
         var _this = this;
         this.tweenOut1 = new TWEEN.Tween(this.outCoords)
-            .to({ x: 175, y: -6 }, 500)
+            .to({ x: 155, y: -6 }, 500)
             .onStop(function() {
-                _this.outCoords =  { x: 175, y: 22 };
+                _this.outCoords =  { x: 155, y: 22 };
                 this.y = _this.outCoords.y;
                 this.x = _this.outCoords.x;
                 $('#pumpOutRun').css({
@@ -310,9 +310,9 @@ export class DeviceDetailComponent implements OnInit {
                 })
             })
         this.tweenOut2 = new TWEEN.Tween(this.outCoords)
-            .to({ x: 136, y: -6 }, 500)
+            .to({ x: 116, y: -6 }, 500)
             .onStop(function() {
-                _this.outCoords =  { x: 175, y: 22 };
+                _this.outCoords =  { x: 155, y: 22 };
                 this.y = _this.outCoords.y;
                 this.x = _this.outCoords.x;
                 $('#pumpOutRun').css({
@@ -328,9 +328,9 @@ export class DeviceDetailComponent implements OnInit {
             })
 
         this.tweenOut3= new TWEEN.Tween(this.outCoords)
-            .to({ x: 136, y: 192 }, 2000)
+            .to({ x: 116, y: 192 }, 2000)
             .onStop(function() {
-                _this.outCoords =  { x: 175, y: 22 };
+                _this.outCoords =  { x: 155, y: 22 };
                 this.y = _this.outCoords.y;
                 this.x = _this.outCoords.x;
                 $('#pumpOutRun').css({
@@ -348,7 +348,7 @@ export class DeviceDetailComponent implements OnInit {
         this.tweenOut4 = new TWEEN.Tween(this.outCoords)
             .to({ x: 100, y: 192 }, 500)
             .onStop(function() {
-                _this.outCoords =  { x: 175, y: 22 };
+                _this.outCoords =  { x: 155, y: 22 };
                 this.y = _this.outCoords.y;
                 this.x = _this.outCoords.x;
                 $('#pumpOutRun').css({
@@ -357,7 +357,7 @@ export class DeviceDetailComponent implements OnInit {
                 })
             })
             .onComplete(function() {
-                _this.outCoords =  { x: 175, y: 22 };
+                _this.outCoords =  { x: 155, y: 22 };
                 this.y = _this.outCoords.y;
                 this.x = _this.outCoords.x;
                 $('#pumpOutRun').css({

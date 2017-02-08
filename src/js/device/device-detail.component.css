@@ -41,7 +41,7 @@
 
 .area {
     position: relative;
-    width: 414px;
+    width: 375px;
     margin: 20px auto;
     font-size: 10px;
 }
@@ -49,7 +49,6 @@
 .gas-area {
     position: relative;
     float: left;
-    margin-left: 10px;
 }
 
 .gas-item {
@@ -61,8 +60,24 @@
     float: left;
 }
 
+.gas-item .h-line {
+    position: relative;
+    top: 10px;
+    left: 20px;
+    width: 50px;
+    background: blue;
+}
+
+.gas-area .v-line {
+    position: absolute;
+    height: 200px;
+    top: 10px;
+    left: 185px;
+    background: blue;
+}
+
 .gas-name {
-    width: 40px;
+    width: 30px;
     text-align: center;
     display: inline-block;
     height: 20px;
@@ -160,7 +175,7 @@
     width: 40px;
     height: 30px;
     border: 1px solid orange;
-    margin-left: 146px;
+    margin-left: 126px;
     border-bottom: none;
     border-left: none;
     position: relative;
