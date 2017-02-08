@@ -22,6 +22,7 @@ export class EditComponent implements OnInit {
         Angle: 10
     };
     IsTemperatureEnabled :boolean;
+    IsGasEnabled :boolean;
     websocket:WebSocket = null;
     In:PumpViewModel = {
             PumpId: 1,
@@ -120,6 +121,7 @@ export class EditComponent implements OnInit {
             Cell: this.Cell || '',
             Rocker: this.Rocker || {},
             IsTemperatureEnabled: this.IsTemperatureEnabled || false,
+            IsGasEnabled: this.IsGasEnabled || false,
             In: this.In ,
             Out: this.Out 
         }

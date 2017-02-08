@@ -18,6 +18,10 @@ var RemoteDevice = db.define('remoteDevice', {
         type: Sequelize.STRING(50),
         defaultValue: ''
     },
+    address: {
+        type: Sequelize.STRING(500),
+        defaultValue: ''
+    },
     status: {
         type: Sequelize.INTEGER,
         defaultValue: 1
