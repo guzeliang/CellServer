@@ -204,7 +204,7 @@ export class DeviceDetailComponent implements OnInit {
     initPumpInAnimate() {
         var _this = this;
         this.tweenIn1 = new TWEEN.Tween(this.inCoords)
-            .to({ x: 136, y: 192 }, 200)
+            .to({ x: 136, y: 192 }, 500)
             .onStop(function() {
                  _this.inCoords = { x: 100, y: 192 };
                 this.y = _this.inCoords.y;
@@ -221,7 +221,7 @@ export class DeviceDetailComponent implements OnInit {
                 })
             })
         this.tweenIn2  = new TWEEN.Tween(this.inCoords)
-            .to({ x: 136, y: -6 }, 1000)
+            .to({ x: 136, y: -6 }, 2000)
             .onStop(function() {
                  _this.inCoords = { x: 100, y: 192 };
                 this.y = _this.inCoords.y;
@@ -239,7 +239,7 @@ export class DeviceDetailComponent implements OnInit {
             })
 
         this.tweenIn3  = new TWEEN.Tween(this.inCoords)
-            .to({ x: 175, y: -6 }, 200)
+            .to({ x: 175, y: -6 }, 500)
             .onStop(function() {
                  _this.inCoords = { x: 100, y: 192 };
                 this.y = _this.inCoords.y;
@@ -257,7 +257,7 @@ export class DeviceDetailComponent implements OnInit {
             })
 
         this.tweenIn4  = new TWEEN.Tween(this.inCoords)
-            .to({ x: 175, y: 22 }, 200)
+            .to({ x: 175, y: 22 }, 500)
             .onComplete(function() {
                 _this.inCoords = { x: 100, y: 192 };
                 this.y = _this.inCoords.y;
@@ -293,7 +293,7 @@ export class DeviceDetailComponent implements OnInit {
     initPumpOutAnimate() {
         var _this = this;
         this.tweenOut1 = new TWEEN.Tween(this.outCoords)
-            .to({ x: 175, y: -6 }, 200)
+            .to({ x: 175, y: -6 }, 500)
             .onStop(function() {
                 _this.outCoords =  { x: 175, y: 22 };
                 this.y = _this.outCoords.y;
@@ -310,7 +310,7 @@ export class DeviceDetailComponent implements OnInit {
                 })
             })
         this.tweenOut2 = new TWEEN.Tween(this.outCoords)
-            .to({ x: 136, y: -6 }, 200)
+            .to({ x: 136, y: -6 }, 500)
             .onStop(function() {
                 _this.outCoords =  { x: 175, y: 22 };
                 this.y = _this.outCoords.y;
@@ -328,7 +328,7 @@ export class DeviceDetailComponent implements OnInit {
             })
 
         this.tweenOut3= new TWEEN.Tween(this.outCoords)
-            .to({ x: 136, y: 192 }, 1000)
+            .to({ x: 136, y: 192 }, 2000)
             .onStop(function() {
                 _this.outCoords =  { x: 175, y: 22 };
                 this.y = _this.outCoords.y;
@@ -346,7 +346,7 @@ export class DeviceDetailComponent implements OnInit {
             })
 
         this.tweenOut4 = new TWEEN.Tween(this.outCoords)
-            .to({ x: 100, y: 192 }, 200)
+            .to({ x: 100, y: 192 }, 500)
             .onStop(function() {
                 _this.outCoords =  { x: 175, y: 22 };
                 this.y = _this.outCoords.y;

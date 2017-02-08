@@ -18,10 +18,6 @@
         <span class='input-group-addon'>状态：</span>
         <input readonly type='text' class='form-control' id='txtStatus' [(ngModel)]="Model.CurrStatus" />
     </div>
-    <div class='input-group bottom-gap'>
-        <span class='input-group-addon'>温度：</span>
-        <input readonly type='text' class='form-control' id='txtTemp' [(ngModel)]="Model.Temperature" />
-    </div>
     <div class='area'>
         <div class='clearfix'>
             <div class='gas-area'>
@@ -56,12 +52,12 @@
                 <div class='sys-item'>
                     <span class='h-line' style='position:relative;top:10px; width:30px;'></span>
                     <span class='sys-name'>温度</span>
-                    <span class='sys-p'>20.0</span>
+                    <span class='sys-p'>{{Model.Temperature}}</span>
                 </div>
                 <div class='sys-item'>
                     <span class='h-line' style='position:relative;top:10px; width:30px;'></span>
                     <span class='sys-name'>溶液体积</span>
-                    <span class='sys-p'>20.0</span>
+                    <span class='sys-p'>{{Model.CurrVolume}}</span>
                 </div>
                 <div class='sys-item'>
                     <span class='h-line' style='position:relative;top:10px; width:30px;'></span>
@@ -77,11 +73,11 @@
                 <div class='rocker-bottom'>
                     <div class='rocker-speed'>
                         <span>速度</span>
-                        <p>5</p>
+                        <p>{{Model.Rocker.Speed}}</p>
                     </div>
                     <div class='rocker-angle'>
                         <span>角度</span>
-                        <p>10</p>
+                        <p>{{Model.Rocker.Angle}}</p>
                     </div>
                 </div>
             </div>
@@ -94,7 +90,7 @@
                 </div>
                 <div class='pump-in-status'>
                     <p>进泵(ml/min)</p>
-                    <span>0.0</span>
+                    <span>{{Model.In.CurrFlowRate}}</span>
                 </div>
                 <span id='pumpInRun' class='pump-in-run circle' style='background:orange'></span>
             </div>
@@ -105,7 +101,7 @@
                 </div>
                 <div class='pump-out-status'>
                     <p>出泵(ml/min)</p>
-                    <span>0.0</span>
+                    <span>{{Model.Out.CurrFlowRate}}</span>
                 </div>
                 <span id='pumpOutRun' class='pump-out-run circle' style='background:darkgreen'></span>
             </div>
