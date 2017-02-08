@@ -2,14 +2,14 @@
 <div class="well well-sm" style='position:fixed; width:100%; z-index:3;'>
     <div class="container fixed-width">
         <button type="button" class="btn btn-primary" id="btnSave" (click)='save()'>
-                    保存
-            </button>
+                保存
+        </button>
         <button type="button" class="btn btn-default" id="btnMonitor" (click)='monitor()'>
                 监控
-            </button>
+        </button>
         <button type="button" class="btn btn-default" id="btnBack" (click)='back()'>
                 返回
-            </button>
+        </button>
     </div>
 </div>
 <div class="container fixed-width" style="padding-top:80px; padding-bottom: 50px;">
@@ -43,7 +43,7 @@
         </div>
         <div class="panel-body pumparea">
             <div class="input-group">
-                <span class="input-group-addon">初始流量</span>
+                <span class="input-group-addon">初始量</span>
                 <input type="text" class="form-control" [(ngModel)]='In.InitialVolume' />
                 <span class="input-group-addon">ml</span>
             </div>
@@ -65,22 +65,22 @@
                 </div>
                 <div class="checkbox">
                     <label>
-                                  <input type="checkbox" [(ngModel)]='In.IsUseabled' />Is Enabled
-                                </label>
+                        <input type="checkbox" [(ngModel)]='In.IsUseabled' />Is Enabled
+                    </label>
                 </div>
             </div>
+            <div class="input-group  scene" [hidden]='In.ProcessMode=="SingleMode" || In.ProcessMode=="VariantVolumeMode"'>
+                <span class="input-group-addon">初始间隔</span>
+                <input type="text" class="form-control" [(ngModel)]='In.FirstSpan' />
+                <span class="input-group-addon  Fixedscene">min</span>
+            </div>
             <div class="input-group scene " [hidden]='In.ProcessMode == "SingleMode"'>
-                <span class="input-group-addon">周期</span>
+                <span class="input-group-addon">加液周期</span>
                 <input type="text" class="form-control" [(ngModel)]='In.Period' />
                 <span class="input-group-addon">min</span>
             </div>
             <div class="input-group  scene" [hidden]='In.ProcessMode=="SingleMode" || In.ProcessMode=="VariantVolumeMode"'>
-                <span class="input-group-addon">间隔</span>
-                <input type="text" class="form-control" [(ngModel)]='In.FirstSpan' />
-                <span class="input-group-addon  Fixedscene">min</span>
-            </div>
-            <div class="input-group  scene" [hidden]='In.ProcessMode=="SingleMode" || In.ProcessMode=="VariantVolumeMode"'>
-                <span class="input-group-addon">流量</span>
+                <span class="input-group-addon">加液量</span>
                 <input type="text" class="form-control" [(ngModel)]='In.Volume' />
                 <span class="input-group-addon">ml</span>
             </div>
@@ -107,7 +107,7 @@
         </div>
         <div class="panel-body pumparea">
             <div class="input-group">
-                <span class="input-group-addon">初始流量</span>
+                <span class="input-group-addon">初始量</span>
                 <input type="text" class="form-control" [(ngModel)]='Out.InitialVolume' />
                 <span class="input-group-addon">ml</span>
             </div>
@@ -133,18 +133,18 @@
                                 </label>
                 </div>
             </div>
+            <div class="input-group   scene" [hidden]='Out.ProcessMode=="SingleMode" || Out.ProcessMode=="VariantVolumeMode"'>
+                <span class="input-group-addon">初始间隔</span>
+                <input type="text" class="form-control" [(ngModel)]='Out.FirstSpan' value="Out.FirstSpan" />
+                <span class="input-group-addon  Fixedscene">min</span>
+            </div>
             <div class="input-group  scene" [hidden]='Out.ProcessMode=="SingleMode"'>
-                <span class="input-group-addon">周期</span>
+                <span class="input-group-addon">加液周期</span>
                 <input type="text" class="form-control" [(ngModel)]='Out.Period' value="Out.Period" />
                 <span class="input-group-addon">min</span>
             </div>
             <div class="input-group   scene" [hidden]='Out.ProcessMode=="SingleMode" || Out.ProcessMode=="VariantVolumeMode"'>
-                <span class="input-group-addon">间隔</span>
-                <input type="text" class="form-control" [(ngModel)]='Out.FirstSpan' value="Out.FirstSpan" />
-                <span class="input-group-addon  Fixedscene">min</span>
-            </div>
-            <div class="input-group   scene" [hidden]='Out.ProcessMode=="SingleMode" || Out.ProcessMode=="VariantVolumeMode"'>
-                <span class="input-group-addon">流量</span>
+                <span class="input-group-addon">加液量</span>
                 <input type="text" class="form-control" [(ngModel)]='Out.Volume' value="Out.Volume" />
                 <span class="input-group-addon">ml</span>
             </div>
@@ -193,8 +193,8 @@
         <div class='panel-body'>
             <div class="checkbox">
                 <label>
-                      <input [(ngModel)]='IsTemperatureEnabled' type="checkbox" />Is Enabled
-                    </label>
+                    <input [(ngModel)]='IsTemperatureEnabled' type="checkbox" />Is Enabled
+                </label>
             </div>
         </div>
     </div>

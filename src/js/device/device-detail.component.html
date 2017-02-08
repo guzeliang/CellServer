@@ -8,7 +8,7 @@
             暂停
         </button>
         <button type="button" class="btn btn-default" id="btnRestart" (click)='restart()'>
-            重新开始
+            结束
         </button>
     </div>
 </div>
@@ -52,12 +52,12 @@
                 <div class='sys-item'>
                     <span class='h-line' style='position:relative;top:10px; width:30px;'></span>
                     <span class='sys-name'>温度</span>
-                    <span class='sys-p'>{{Model.Temperature}}</span>
+                    <span class='sys-p'>{{Model.Temperature}}℃</span>
                 </div>
                 <div class='sys-item'>
                     <span class='h-line' style='position:relative;top:10px; width:30px;'></span>
                     <span class='sys-name'>溶液体积</span>
-                    <span class='sys-p'>{{Model.CurrVolume}}</span>
+                    <span class='sys-p'>{{Model.CurrVolume}}ml</span>
                 </div>
                 <div class='sys-item'>
                     <span class='h-line' style='position:relative;top:10px; width:30px;'></span>
