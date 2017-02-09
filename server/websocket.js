@@ -104,7 +104,7 @@ var iotHandler = {
 
 
         if (data.lat >= 0 && data.lng >= 0) {
-            httpHelper.request(`http://api.map.baidu.com/geocoder?output=json&location=${data.lat},${data.lng}&key=zkHLhwGad3kBtfVBvTTz90UdlQECBqGX`)
+            httpHelper.request("http://api.map.baidu.com/geocoder?output=json&location=" + data.lat + "," + data.lng + "&key=zkHLhwGad3kBtfVBvTTz90UdlQECBqGX")
                 .then(function(ret) {
                     console.log(ret)
                     var addr = "";
