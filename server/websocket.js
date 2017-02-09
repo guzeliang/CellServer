@@ -104,19 +104,19 @@ var iotHandler = {
 
 
         if (data.lat >= 0 && data.lng >= 0) {
-            httpHelper.request("http://api.map.baidu.com/geocoder?output=json&location=" + data.lat + "," + data.lng + "&key=zkHLhwGad3kBtfVBvTTz90UdlQECBqGX")
+            httpHelper.request(`https://restapi.amap.com/v3/geocode/regeo?key=e38355b1b511dff9a8cff2c8b849e7d1&location=${data.lng},${data.lng}`)
                 .then(function(ret) {
                     console.log(ret)
-                    var addr = "";
-                    if (ret.status == 'OK' && ret.result) {
-                        addr = ret.result.formatted_address;
+                    var p = {
+                        clientId: data.clientId,
+                        description: data.description
                     }
 
-                    return models.RemoteDevice.upsert({
-                        clientId: data.clientId,
-                        description: data.description,
-                        address: addr
-                    })
+                    if (ret.status == '1' && ret.regeocode) {
+                        p.address = ret.regeocode.formatted_address;
+                    }
+
+                    return models.RemoteDevice.upsert(p)
                 }).catch(function(e) {
                     console.log(e.message || e)
                 })
