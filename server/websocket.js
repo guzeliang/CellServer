@@ -104,7 +104,7 @@ var iotHandler = {
 
 
         if (data.lat >= 0 && data.lng >= 0) {
-            httpHelper.request(`https://restapi.amap.com/v3/geocode/regeo?key=e38355b1b511dff9a8cff2c8b849e7d1&location=${data.lng},${data.lat}`)
+            httpHelper.request(`https://restapi.amap.com/v3/geocode/regeo?key=367a1a9c9071880e3af632afc45a24b7&location=${data.lng},${data.lat}`)
                 .then(function(ret) {
                     console.log(ret)
                     var p = {
