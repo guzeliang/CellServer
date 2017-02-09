@@ -70,14 +70,14 @@ exports.getPage = function(req, res, next) {
                 t.push({
                     id: p[0].roomId,
                     desc: p[0].desc,
-                    currTime: moment(p[0].CurrTime).format('YYYY-MM-DD HH:mm:ss'),
+                    addr: item.address,
                     currStatus: p[0].payload.CurrStatus || 'Unknown'
                 });
             } else {
                 t.push({
                     id: item.clientId,
                     desc: item.description,
-                    currTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+                    addr: item.address,
                     currStatus: 'Closed'
                 });
             }

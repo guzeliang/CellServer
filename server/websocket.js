@@ -3,6 +3,7 @@ var common = require('./utils/common');
 var _ = require('lodash');
 var logic = require('./utils/logic');
 var mailHelper = require('./utils/mailHelper');
+var httpHelper = require('./utils/httpHelper');
 var logger = require('./utils/logger');
 var models = require('./models/');
 
@@ -82,6 +83,8 @@ var browserHandler = {
     }
 };
 
+
+
 var iotHandler = {
     default: function(data) {
         console.log('default handler');
@@ -99,10 +102,30 @@ var iotHandler = {
         socket.desc = data.description;
         socket.payload = data.payload || {};
 
-        models.RemoteDevice.upsert({
-            clientId: data.clientId,
-            description: data.description
-        }).then();
+
+        if (data.lat >= 0 && data.lng >= 0) {
+            httpHelper.request(`http://api.map.baidu.com/geocoder?output=json&location=${data.lat},${data.lng}&key=zkHLhwGad3kBtfVBvTTz90UdlQECBqGX`)
+                .then(function(ret) {
+                    console.log(ret)
+                    var addr = "";
+                    if (ret.status == 'OK' && ret.result) {
+                        addr = ret.result.formatted_address;
+                    }
+
+                    return models.RemoteDevice.upsert({
+                        clientId: data.clientId,
+                        description: data.description,
+                        address: addr
+                    })
+                }).catch(function(e) {
+                    console.log(e.message || e)
+                })
+        } else {
+            models.RemoteDevice.upsert({
+                clientId: data.clientId,
+                description: data.description
+            }).then();
+        }
     },
 
     syncData: function(data, socket, wss) {

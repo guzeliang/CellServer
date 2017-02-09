@@ -10,7 +10,7 @@ var RemoteDevice = db.define('remoteDevice', {
         allowNull: false
     },
     clientId: {
-        type: Sequelize.STRING(500),
+        type: Sequelize.STRING(50),
         defaultValue: '',
         unique: true
     },
@@ -19,7 +19,7 @@ var RemoteDevice = db.define('remoteDevice', {
         defaultValue: ''
     },
     address: {
-        type: Sequelize.STRING(500),
+        type: Sequelize.STRING(100),
         defaultValue: ''
     },
     status: {

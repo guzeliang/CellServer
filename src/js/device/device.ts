@@ -1,6 +1,6 @@
 export class Device {
     id:number;
-    userName:string;
-    password:string;
-    status:string;
+    desc:string;
+    addr:string;
+    currStatus:string;
 }
