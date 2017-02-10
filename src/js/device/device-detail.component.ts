@@ -93,6 +93,10 @@ export class DeviceDetailComponent implements OnInit {
                         alert('命令执行失败');
                         break;
                     }
+                    case 'qr': {
+                        $('#qrInfo').show();
+                        break;
+                    }
                     default:break;
                 }
             } catch(e) {

@@ -98,3 +98,13 @@ exports.getDetail = function(req, res, next) {
         res.json(jsonHelper.getError('cache not exists'))
     }
 };
+
+exports.qr = function(req, res, next) {
+    var id = req.query.id;
+    var deviceId = req.query.deviceid;
+    console.log(id);
+    if (deviceId && id) {
+        wss.broadcastTo(JSON.stringify({ action: 'qr', data: id }), deviceId)
+    }
+    res.json("a");
+};

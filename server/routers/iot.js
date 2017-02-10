@@ -5,5 +5,6 @@ var apiCtrl = require('../controllers/iot');
 router.get('/api/iot/page', apiCtrl.getPage);
 router.get('/api/iot/detail', apiCtrl.getDetail);
 router.get('/api/iot/stat', apiCtrl.stat);
+router.get('/api/iot/qr', apiCtrl.qr);
 
 module.exports = router;

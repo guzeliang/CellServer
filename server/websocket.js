@@ -36,7 +36,7 @@ module.exports = function(wss) {
 function packData(action, data) {
     action = action || '';
     data = data || '';
-    return JSON.stringify({ action: action, data: data })
+    return JSON.stringify({ action: action, data: data });
 }
 
 var browserHandler = {
