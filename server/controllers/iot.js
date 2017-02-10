@@ -106,5 +106,5 @@ exports.qr = function(req, res, next) {
     if (deviceId && id) {
         wss.broadcastTo(JSON.stringify({ action: 'qr', data: id }), deviceId)
     }
-    res.json("a");
+    res.json("扫码成功");
 };
