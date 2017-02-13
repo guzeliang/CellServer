@@ -185,6 +185,26 @@
             </div>
         </div>
     </div>
+    <div class='panel panel-default'>
+        <div class='panel-heading'>
+            气体
+        </div>
+        <div class='panel-body'>
+            <div class="checkbox">
+                <label>
+                      <input [(ngModel)]='Gas.IsEnabled' type="checkbox" />Is Enabled
+                    </label>
+            </div>
+            <div class='input-group bottom-gap'>
+                <span class='input-group-addon'>速度</span>
+                <input [(ngModel)]='Gas.Flowrate' type='text' class='form-control' />
+            </div>
+            <div class='input-group'>
+                <span class='input-group-addon'>浓度</span>
+                <input [(ngModel)]='Gas.Volume' type='text' class='form-control' />
+            </div>
+        </div>
+    </div>
 
     <div class='panel panel-default'>
         <div class='panel-heading'>

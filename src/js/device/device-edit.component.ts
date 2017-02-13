@@ -3,6 +3,7 @@ import { Headers, Http, Response } from '@angular/http';
 import { ActivatedRoute, Params}   from '@angular/router';
 import { NgIf, NgFor} from '@angular/common';
 import {Rocker} from './Rocker';
+import {Gas} from './Gas';
 import {PumpViewModel} from './PumpViewModel';
 import * as moment from 'moment';
 
@@ -17,9 +18,14 @@ export class EditComponent implements OnInit {
     UserName:string;
     Cell:string;
     Rocker:Rocker = {
-        IsEnabled: false,
+        IsEnabled: true,
         Speed: 5,
         Angle: 10
+    };
+    Gas:Gas = {
+        IsEnabled: true,
+        Flowrate: 50,
+        Volume: 0
     };
     IsTemperatureEnabled :boolean;
     IsGasEnabled :boolean;
@@ -120,6 +126,7 @@ export class EditComponent implements OnInit {
             UserName: this.UserName || '',
             Cell: this.Cell || '',
             Rocker: this.Rocker || {},
+            Gas:this.Gas || {},
             IsTemperatureEnabled: this.IsTemperatureEnabled || false,
             IsGasEnabled: this.IsGasEnabled || false,
             In: this.In ,
