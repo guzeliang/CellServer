@@ -27,7 +27,7 @@ export class EditComponent implements OnInit {
         Flowrate: 50,
         Volume: 0
     };
-    IsTemperatureEnabled :boolean;
+    IsTemperatureEnabled :boolean = true;
     IsGasEnabled :boolean;
     websocket:WebSocket = null;
     In:PumpViewModel = {
@@ -48,7 +48,7 @@ export class EditComponent implements OnInit {
     Out:PumpViewModel={
             PumpId: 3,
             PumpName: 'Pump 3',
-            StartTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+            StartTime: moment().add(2,'minite').format('YYYY-MM-DD HH:mm:ss'),
             EndTime: moment().add(10, 'day').format('YYYY-MM-DD HH:mm:ss'),
             Direction: 'Out',
             InitialVolume: 5,
