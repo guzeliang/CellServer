@@ -24,7 +24,7 @@ export class EditComponent implements OnInit {
     };
     Gas:Gas = {
         IsEnabled: true,
-        Flowrate: 50,
+        Flowrate: 500,
         Volume: 0
     };
     IsTemperatureEnabled :boolean = true;
