@@ -8,7 +8,7 @@ import { Headers, Http, Response } from '@angular/http';
   template: `
    <div class="navbar navbar-default  input-group-addon-format navbar-fixed-bottom" role="navigation" style="z-index: 2; background:#f5f5f5;">
         <div class="container fixed-width" style="line-height: 50px; vertical-align: middle;">
-            <a class="center-block text-center" id="loginNav" href="#">苏州欧飞纳米科技有限公司</a>
+            <a class="center-block text-center" id="loginNav" href="#">生动细胞生物反应器</a>
         </div>
     </div>
  `  
