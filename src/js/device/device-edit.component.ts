@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
-import { ActivatedRoute, Params}   from '@angular/router';
+import { ActivatedRoute, Params,Router}   from '@angular/router';
 import { NgIf, NgFor} from '@angular/common';
 import {Rocker} from './Rocker';
 import {Gas} from './Gas';
@@ -62,6 +62,7 @@ export class EditComponent implements OnInit {
         };
 
     constructor(
+        private _router: Router,
         private route: ActivatedRoute
     ) {}
 
@@ -88,7 +89,7 @@ export class EditComponent implements OnInit {
                 switch(data.action) {
                     case 'saveScheduleBack' :{
                         if (data.data && data.data.code == 'success') {
-                            location.href = `/iot/detail/v/${_this.params['id']}/${_this.params['desc']}`;
+                            _this._router.navigate([`/iot/detail/v/${_this.params['id']}/${_this.params['desc']}`]);
                         } else {
                             alert(data.data.code)
                             //common.popBy('#btnSave', data.code);
@@ -136,7 +137,8 @@ export class EditComponent implements OnInit {
     }
 
     monitor():void {
-        location.href = `/iot/detail/v/${this.params['id']}/${this.params['desc']}`;
+        //location.href = `/iot/detail/v/${this.params['id']}/${this.params['desc']}`;
+        this._router.navigate([`/iot/detail/v/${this.params['id']}/${this.params['desc']}`]);
     }
 
     back():void {

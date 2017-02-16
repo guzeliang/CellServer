@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params }   from '@angular/router';
+import { ActivatedRoute, Params ,Router}   from '@angular/router';
 import { Headers, Http, Response} from '@angular/http';
 
 import {SysStatusEnum} from './SysStatusEnum';
@@ -60,6 +60,7 @@ export class DeviceDetailComponent implements OnInit {
         }
     };
     constructor(
+        private _router: Router,
         private route: ActivatedRoute
     ) {}
 
@@ -113,7 +114,7 @@ export class DeviceDetailComponent implements OnInit {
                 data = JSON.parse(data);
     
         if (data.CurrStatus === SysStatusEnum.Discarded) {
-            return location.href = `/iot/edit/v/${this.params.id}/${this.params.desc}`;
+            return this._router.navigate([`/iot/edit/v/${this.params.id}/${this.params.desc}`]);
         }
     
         this.switchCommand(data.CurrStatus);
