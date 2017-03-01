@@ -2,6 +2,8 @@ var net = require('net');
 var fs = require('fs');
 var config = require('./config');
 var simHelper = require('./utils/simHelper');
+var models = require('./models/');
+var Promise = require('bluebird');
 
 var listenPort = process.env.WEB_SOCKET_PORT || config.WEB_SOCKET_PORT; //监听端口
 
