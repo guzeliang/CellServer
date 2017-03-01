@@ -1,4 +1,3 @@
-var cache = require('./cacheHelper');
 var _ = require('underscore');
 var config = require('../config');
 var moment = require('moment');

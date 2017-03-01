@@ -1,7 +1,6 @@
 var config = require('../config');
 var fs = require('fs');
 var request = require('request');
-var cache = require('../utils/cacheHelper');
 var jsonHelper = require('../utils/jsonHelper');
 var _ = require('underscore');
 var moment = require('moment');

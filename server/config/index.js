@@ -9,5 +9,10 @@ module.exports = {
         user: 'root',
         password: '1234',
         database: 'iotserver'
-    }
+    },
+    SIM: {
+        username: 'sdxbkj',
+        password: '1X6D8G'
+    },
+    SIM_AUTHOR_FILE: path.resolve(__dirname, '../config') + '/simtoken'
 };

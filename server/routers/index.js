@@ -13,4 +13,5 @@ module.exports = function(app) {
     })
 
     app.use(require('./iot'));
+    app.use(require('./sim'));
 };

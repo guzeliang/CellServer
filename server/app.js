@@ -31,6 +31,7 @@ app.use(logger.log4js.connectLogger(logger.access, {
 
 
 require("./routers/")(app);
+require("./task");
 
 app.use(function(req, res, next) {
     var err = new Error('Not Found' + req.originalUrl);

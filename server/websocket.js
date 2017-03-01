@@ -83,8 +83,6 @@ var browserHandler = {
     }
 };
 
-
-
 var iotHandler = {
     default: function(data) {
         console.log('default handler');
@@ -102,30 +100,10 @@ var iotHandler = {
         socket.desc = data.description;
         socket.payload = data.payload || {};
 
-
-        if (data.lat >= 0 && data.lng >= 0) {
-            httpHelper.request(`https://restapi.amap.com/v3/geocode/regeo?key=367a1a9c9071880e3af632afc45a24b7&location=${data.lng},${data.lat}`)
-                .then(function(ret) {
-                    console.log(ret)
-                    var p = {
-                        clientId: data.clientId,
-                        description: data.description
-                    }
-
-                    if (ret.status == '1' && ret.regeocode) {
-                        p.address = ret.regeocode.formatted_address;
-                    }
-
-                    return models.RemoteDevice.upsert(p)
-                }).catch(function(e) {
-                    console.log(e.message || e)
-                })
-        } else {
-            models.RemoteDevice.upsert({
-                clientId: data.clientId,
-                description: data.description
-            }).then();
-        }
+        models.RemoteDevice.upsert({
+            clientId: data.clientId,
+            description: data.description
+        }).then();
     },
 
     syncData: function(data, socket, wss) {
