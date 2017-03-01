@@ -4,8 +4,6 @@ var request = require('request');
 var Promise = require('bluebird');
 var fs = require('fs');
 
-var postAsync = Promise.promisify(request.post, { context: request });
-
 module.exports = {
     //subClass.prototype添加的属性都必须位置 extend之后, 否则子类的同名方法会被父类的覆盖
     extend: function extend(subClass, superClass) {
@@ -176,21 +174,6 @@ module.exports = {
         return ipAddress;
     },
 
-    getAuthorToken: function() {
-        return postAsync({
-            url: 'http://120.26.213.169/api/access_token/',
-            timeout: 3 * 1000,
-            json: true,
-            form: config.SIM
-        }).then(function(res) {
-            if (res && res.body && res.body.code && res.body.code == 200 && res.body.token) {
-                fs.writeFileSync(config.SIM_AUTHOR_FILE, res.body.token)
-                return Promise.resolve(res.body.token);
-            }
-
-            return Promise.reject(new Error(JSON.stringify(res.body)));
-        })
-    }
 };
 
 /***************js对象扩展方法*****************/

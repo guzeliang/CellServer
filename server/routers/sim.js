@@ -3,7 +3,7 @@ var fs = require('fs');
 var router = express.Router();
 var request = require('request');
 var httpHelper = require('../utils/httpHelper');
-var common = require('../utils/common');
+var simHelper = require('../utils/simHelper');
 var config = require('../config');
 var cacheHelper = require('../utils/cacheHelper');
 var models = require('../models/');
@@ -49,42 +49,27 @@ router.get('/api/sim/location', function(req, res) {
         return res.json('ci is empty');
     }
 
-    var token = '';
     var promise = '';
 
     if (fs.existsSync(config.SIM_AUTHOR_FILE)) {
         promise = Promise.resolve(fs.readFileSync(config.SIM_AUTHOR_FILE).toString());
     } else {
-        promise = common.getAuthorToken();
+        promise = simHelper.getAuthorToken();
     }
 
     promise.then(function(data) {
-        console.log("aa->" + data)
-        var opt = {
-            url: `http://120.26.213.169/api/celltrack/?bs=${mcc},${mnc},${lac},${ci}`,
-            json: true,
-            headers: {
-                'Authorization': 'JWT ' + data
-            }
-        }
-        request(opt, function(err, resx, body) {
-            if (body && body.code == 200 && body.result && body.result.length) {
-                models.RemoteDevice.upsert({
-                    clientId: deviceid,
-                    address: body.result[0].address
-                }).then(function() {
-                    res.json(body.result[0]);
-                });
-            } else {
-                res.json(body);
-            }
-
+        return simHelper.getLocation(data, mcc, mnc, lac, ci);
+    }).then(function(location) {
+        models.RemoteDevice.upsert({
+            clientId: deviceid,
+            address: location.address
+        }).then(function() {
+            res.json(location);
         });
     }).catch(function(err) {
         console.log('errrr' + err.message)
         res.json(err.message);
     })
-
 });
 
 module.exports = router;

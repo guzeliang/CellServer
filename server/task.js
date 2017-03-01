@@ -4,7 +4,7 @@ var later = require('later');
 var Promise = require('bluebird');
 var request = require('request');
 
-var common = require('./utils/common');
+var simHelper = require('./utils/simHelper');
 var config = require('./config');
 
 later.date.localTime();
@@ -15,14 +15,14 @@ console.log("Now:" + new Date());
 var sched = later.parse.recur().every(1).hour();
 
 var t = later.setInterval(function() {
-    common.getAuthorToken().then(function(data) {
+    simHelper.getAuthorToken().then(function(data) {
         console.log(data)
     }).catch(function(err) {
         console.log(err.message)
     });
 }, sched);
 
-common.getAuthorToken().then(function(data) {
+simHelper.getAuthorToken().then(function(data) {
     console.log(data)
 }).catch(function(err) {
     console.log(err.message)
