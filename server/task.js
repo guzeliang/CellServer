@@ -1,7 +1,9 @@
-var later = require('later');
 var fs = require('fs');
+
+var later = require('later');
 var Promise = require('bluebird');
 var request = require('request');
+
 var common = require('./utils/common');
 var config = require('./config');
 
