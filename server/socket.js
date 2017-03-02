@@ -54,7 +54,13 @@ var server = net.createServer(function(socket) {
         while (true) {
             var si = receiveCache.indexOf("|>");
             var ei = receiveCache.indexOf("<|");
-            if (si === -1 || ei === -1) return null;
+            if (si === -1 && ei === -1) {
+                receiveCache = "";
+                break;
+            };
+            if (si === -1 || ei === -1) {
+                break;
+            };
 
             var b = receiveCache.slice(si + 2, ei);
             var len = +b || 0;
@@ -62,13 +68,13 @@ var server = net.createServer(function(socket) {
             //包长度有误 
             if (len === 0) {
                 receiveCache = receiveCache.slice(ei + 2);
-                return null;
+                break;
             }
 
             var body = receiveCache.slice(ei + 2);
 
             if (body.length < len) {
-                return null;
+                break;
             }
 
             body = body.slice(0, len);
@@ -76,7 +82,7 @@ var server = net.createServer(function(socket) {
 
             //数据不完整 等待下一次接受后 再次解析
             if (body.length < len) {
-                return null;
+                break;
             }
 
             //如果body中包含新的头 则本次解析失败，重新解析
