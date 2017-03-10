@@ -9,6 +9,9 @@ var RemoteDevice = db.define('remoteDevice', {
         primaryKey: true,
         allowNull: false
     },
+    customerId: {
+        type: Sequelize.INTEGER,
+    },
     clientId: {
         type: Sequelize.STRING(50),
         defaultValue: '',
