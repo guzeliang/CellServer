@@ -5,9 +5,14 @@ node_modules/
 *.DS_Store
 logs/*
 files/*
+server/logs/*
+server/files/*
 server/config/simtoken
 start.bat
 npm-debug.log
 npm-debug.log.*
 public/*
 typings/*
+app.pid
+app-err*.log
+app-out*.log
