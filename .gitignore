@@ -13,6 +13,6 @@ npm-debug.log
 npm-debug.log.*
 public/*
 typings/*
-app.pid
+app*.pid
 app-err*.log
 app-out*.log
