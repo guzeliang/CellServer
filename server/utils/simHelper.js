@@ -34,8 +34,10 @@ module.exports = {
             request(opt, function(err, resx, body) {
                 if (body && body.code == 200 && body.result && body.result.length) {
                     resolve(body.result[0]);
-                } else {
+                } else if (body) {
                     reject(new Error('get location error:' + JSON.stringify(body)));
+                } else {
+                    reject(err);
                 }
 
             });

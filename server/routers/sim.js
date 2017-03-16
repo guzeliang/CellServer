@@ -7,6 +7,7 @@ var simHelper = require('../utils/simHelper');
 var config = require('../config');
 var cacheHelper = require('../utils/cacheHelper');
 var models = require('../models/');
+var jsonHelper = require('../utils/jsonHelper');
 
 router.get('/api/sim/author', function(req, res) {
     request.post({
@@ -30,23 +31,23 @@ router.get('/api/sim/location', function(req, res) {
     var deviceid = req.query.deviceid;
 
     if (!deviceid) {
-        return res.json('deviceid is empty');
+        return res.json(jsonHelper.getError('deviceid is empty'));
     }
 
     if (!mcc && mcc !== 0) {
-        return res.json('mcc is empty');
+        return res.json(jsonHelper.getError('mcc is empty'));
     }
 
     if (!mnc && mnc !== 0) {
-        return res.json('mnc is empty');
+        return res.json(jsonHelper.getError('mnc is empty'));
     }
 
     if (!lac && lac !== 0) {
-        return res.json('lac is empty');
+        return res.json(jsonHelper.getError('lac is empty'));
     }
 
     if (!ci && ci !== 0) {
-        return res.json('ci is empty');
+        return res.json(jsonHelper.getError('ci is empty'));
     }
 
     var promise = '';
@@ -64,11 +65,10 @@ router.get('/api/sim/location', function(req, res) {
             clientId: deviceid,
             address: location.address
         }).then(function() {
-            res.json(location);
+            res.json(jsonHelper.getSuccess(location));
         });
     }).catch(function(err) {
-        console.log('errrr' + err.message)
-        res.json(err.message);
+        res.json(jsonHelper.getError(err.message));
     })
 });
 
