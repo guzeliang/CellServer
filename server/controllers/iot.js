@@ -142,3 +142,103 @@ exports.qr = function(req, res, next) {
             res.json('扫码失败：' + err.message);
         })
 };
+
+exports.qrCode = function(req, res) {
+    var id = req.query.id;
+    var deviceId = req.query.deviceid;
+
+    //如果扫描的是耗材，先判断是否已经扫描了设备
+    //如果扫描了 就走正常流程 否则写入cookie
+    if (id) {
+        if (req.cookies.deviceId) {
+            deviceId = req.cookies.deviceId;
+        } else {
+            res.cookie('id', id, { expires: new Date(Date.now() + 10 * 60 * 1000), httpOnly: true });
+            return res.json(jsonHelper.getError('耗材编号' + id + ', 请扫描设备'));
+        }
+    } else if (deviceId) {
+        if (req.cookies.id) {
+            id = req.cookies.id;
+        } else {
+            res.cookie('deviceId', deviceId, { expires: new Date(Date.now() + 10 * 60 * 1000), httpOnly: true });
+            return res.json(jsonHelper.getError('设备编号' + deviceId + ', 请扫描耗材'));
+        }
+    }
+
+    if (!id) {
+        return res.json(jsonHelper.getError('耗材编号不能为空'));
+    }
+
+    if (!deviceId) {
+        return res.json(jsonHelper.getError('设备编号不能为空'));
+    }
+    var remoteDevie;
+    var consumable;
+    var usedTimes = 0;
+
+    models.RemoteDevice.findOne({ where: { clientId: deviceId }, raw: true })
+        .then(doc => {
+            if (!doc) return Promise.reject(new Error('对应的设备不存在,请重新扫描设备'));
+            remoteDevie = doc;
+            return Promise.resolve(doc);
+        })
+        .then(p => {
+            return models.Consumable.findOne({ where: { serialNumber: id }, raw: true });
+        })
+        .then(docx => {
+            if (!docx) return Promise.reject(new Error('对应的耗材不存在，请重新扫描耗材'));
+            consumable = docx;
+            return Promise.resolve(docx);
+        }).then(() => { //判断该耗材使用次数是否大于5
+            return models.DeviceUnionConsumable.sum('times', { where: { consumableId: consumable.id } })
+        }).then((times) => {
+            if (times >= 5) {
+                return Promise.reject(new Error('耗材最多只能使用5次'));
+            }
+            return models.DeviceUnionConsumable.findOne({ where: { consumableId: consumable.id, deviceId: remoteDevie.id }, raw: true });
+        })
+        .then((doc) => {
+            if (!doc)
+                return models.DeviceUnionConsumable.create({ consumableId: consumable.id, deviceId: remoteDevie.id })
+            else {
+                doc.times += 1;
+                usedTimes = doc.times;
+                return models.DeviceUnionConsumable.update(doc, { where: { id: doc.id }, fields: ['times'] });
+            }
+        })
+        .then(doc => {
+            var data = consumable.serialNumber + ',' + consumable.type + ',' + usedTimes;
+            wss.broadcastTo(JSON.stringify({ action: 'qr', data: data }), deviceId, 'iot')
+            res.clearCookie('id');
+            res.clearCookie('deviceId');
+            res.json(jsonHelper.getSuccess(consumable));
+        })
+        .catch(err => {
+            res.json(jsonHelper.getError(err.message));
+        })
+}
+
+exports.qrCodex = function(req, res) {
+    console.log(req.cookies)
+    var p = req.cookies || {};
+    var id = req.query.id;
+    var deviceid = req.query.deviceid;
+
+    if (id && !p.id) {
+        res.cookie('id', id, { expires: new Date(Date.now() + 10 * 60 * 1000), httpOnly: true });
+        p.id = id;
+    }
+    if (deviceid && !p.deviceid) {
+        res.cookie('deviceid', deviceid, { expires: new Date(Date.now() + 10 * 60 * 1000), httpOnly: true });
+        p.deviceid = deviceid;
+    }
+    res.writeHead(200, { 'Content-Type': 'text/plain;charset=utf-8' });
+    if (p.id && p.deviceid) {
+        res.write('耗材编号' + p.id + '设备编号' + p.deviceid + '配对成功')
+    } else if (p.id) {
+        res.write('耗材编号' + p.id + ', 请扫描设备');
+    } else {
+        res.write('设备编号' + p.deviceid + ', 请扫描耗材');
+    }
+    res.end();
+}

@@ -31,7 +31,7 @@ app.use(logger.log4js.connectLogger(logger.access, {
 
 
 require("./routers/")(app);
-require("./task");
+// require("./task");
 require("./socket");
 
 app.use(function(req, res, next) {
