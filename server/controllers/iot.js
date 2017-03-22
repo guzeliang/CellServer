@@ -198,9 +198,10 @@ exports.qrCode = function(req, res) {
             return models.DeviceUnionConsumable.findOne({ where: { consumableId: consumable.id, deviceId: remoteDevie.id }, raw: true });
         })
         .then((doc) => {
-            if (!doc)
+            if (!doc) {
+                usedTimes = 1;
                 return models.DeviceUnionConsumable.create({ consumableId: consumable.id, deviceId: remoteDevie.id })
-            else {
+            } else {
                 doc.times += 1;
                 usedTimes = doc.times;
                 return models.DeviceUnionConsumable.update(doc, { where: { id: doc.id }, fields: ['times'] });
