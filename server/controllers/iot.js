@@ -147,30 +147,34 @@ exports.qrCode = function(req, res) {
     var id = req.query.id;
     var deviceId = req.query.deviceid;
 
-    //如果扫描的是耗材，先判断是否已经扫描了设备
-    //如果扫描了 就走正常流程 否则写入cookie
-    if (id) {
-        if (req.cookies.deviceId) {
-            deviceId = req.cookies.deviceId;
-        } else {
-            res.cookie('id', id, { expires: new Date(Date.now() + 10 * 60 * 1000), httpOnly: true });
-            return res.json(jsonHelper.getError('耗材编号' + id + ', 请扫描设备'));
-        }
-    } else if (deviceId) {
-        if (req.cookies.id) {
-            id = req.cookies.id;
-        } else {
-            res.cookie('deviceId', deviceId, { expires: new Date(Date.now() + 10 * 60 * 1000), httpOnly: true });
-            return res.json(jsonHelper.getError('设备编号' + deviceId + ', 请扫描耗材'));
-        }
-    }
+    //如果耗材和设备没有同时传入 则需要如下判断
+    //如果扫描的是耗材，先判断是否已经扫描了设备 若扫描了 就走正常流程 否则写入cookie
+    //如果扫描的是设备，先判断是否已经扫描了耗材 若扫描了 就走正常流程 否则写入cookie
 
-    if (!id) {
-        return res.json(jsonHelper.getError('耗材编号不能为空'));
-    }
+    if (!(id && deviceId)) {
+        if (id) {
+            if (req.cookies.deviceId) {
+                deviceId = req.cookies.deviceId;
+            } else {
+                res.cookie('id', id, { expires: new Date(Date.now() + 10 * 60 * 1000), httpOnly: true });
+                return res.json(jsonHelper.getError('耗材编号' + id + ', 请扫描设备'));
+            }
+        } else if (deviceId) {
+            if (req.cookies.id) {
+                id = req.cookies.id;
+            } else {
+                res.cookie('deviceId', deviceId, { expires: new Date(Date.now() + 10 * 60 * 1000), httpOnly: true });
+                return res.json(jsonHelper.getError('设备编号' + deviceId + ', 请扫描耗材'));
+            }
+        }
 
-    if (!deviceId) {
-        return res.json(jsonHelper.getError('设备编号不能为空'));
+        if (!id) {
+            return res.json(jsonHelper.getError('耗材编号不能为空'));
+        }
+
+        if (!deviceId) {
+            return res.json(jsonHelper.getError('设备编号不能为空'));
+        }
     }
     var remoteDevie;
     var consumable;
