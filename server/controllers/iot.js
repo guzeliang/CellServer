@@ -216,6 +216,7 @@ exports.qrCode = function(req, res) {
             wss.broadcastTo(JSON.stringify({ action: 'qr', data: data }), deviceId, 'iot')
             res.clearCookie('id');
             res.clearCookie('deviceId');
+            consumable.usedTimes = usedTimes;
             res.json(jsonHelper.getSuccess(consumable));
         })
         .catch(err => {
