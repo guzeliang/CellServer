@@ -176,13 +176,19 @@ exports.qrCode = function(req, res) {
             return res.json(jsonHelper.getError('设备编号不能为空'));
         }
     }
+
     var remoteDevie;
     var consumable;
     var usedTimes = 0;
 
     models.RemoteDevice.findOne({ where: { clientId: deviceId }, raw: true })
         .then(doc => {
-            if (!doc) return Promise.reject(new Error('对应的设备不存在,请重新扫描设备'));
+            if (!doc) return models.RemoteDevice.create({
+                clientId: deviceId,
+            }, { raw: true }).then(docx => {
+                remoteDevie = docx.dataValues;
+                return Promise.resolve(docx);
+            });
             remoteDevie = doc;
             return Promise.resolve(doc);
         })
@@ -222,29 +228,4 @@ exports.qrCode = function(req, res) {
         .catch(err => {
             res.json(jsonHelper.getError(err.message));
         })
-}
-
-exports.qrCodex = function(req, res) {
-    console.log(req.cookies)
-    var p = req.cookies || {};
-    var id = req.query.id;
-    var deviceid = req.query.deviceid;
-
-    if (id && !p.id) {
-        res.cookie('id', id, { expires: new Date(Date.now() + 10 * 60 * 1000), httpOnly: true });
-        p.id = id;
-    }
-    if (deviceid && !p.deviceid) {
-        res.cookie('deviceid', deviceid, { expires: new Date(Date.now() + 10 * 60 * 1000), httpOnly: true });
-        p.deviceid = deviceid;
-    }
-    res.writeHead(200, { 'Content-Type': 'text/plain;charset=utf-8' });
-    if (p.id && p.deviceid) {
-        res.write('耗材编号' + p.id + '设备编号' + p.deviceid + '配对成功')
-    } else if (p.id) {
-        res.write('耗材编号' + p.id + ', 请扫描设备');
-    } else {
-        res.write('设备编号' + p.deviceid + ', 请扫描耗材');
-    }
-    res.end();
 }
