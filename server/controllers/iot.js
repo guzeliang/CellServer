@@ -158,7 +158,7 @@ exports.qrCode = function(req, res) {
         }).then(() => { //判断该耗材使用次数是否大于5
             return models.DeviceUnionConsumable.sum('times', { where: { consumableId: consumable.id } })
         }).then((times) => {
-            console.log(times);
+            usedTimes = times;
             if (times >= 50) {
                 return Promise.reject(new Error('耗材最多只能使用50次'));
             }
@@ -166,15 +166,14 @@ exports.qrCode = function(req, res) {
         })
         .then((doc) => {
             if (!doc) {
-                usedTimes = 1;
                 return models.DeviceUnionConsumable.create({ consumableId: consumable.id, deviceId: remoteDevie.id })
             } else {
                 doc.times += 1;
-                usedTimes = doc.times;
                 return models.DeviceUnionConsumable.update(doc, { where: { id: doc.id }, fields: ['times'] });
             }
         })
         .then(doc => {
+            usedTimes += 1;
             var data = consumable.serialNumber + ',' + consumable.type + ',' + usedTimes;
             wss.broadcastTo(JSON.stringify({ action: 'qr', data: data }), deviceId, 'iot')
             res.clearCookie('id');
