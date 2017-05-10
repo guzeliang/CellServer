@@ -99,50 +99,6 @@ exports.getDetail = function(req, res, next) {
     }
 };
 
-exports.qr = function(req, res, next) {
-    var id = req.query.id;
-    var deviceId = req.query.deviceid;
-
-    if (!id) {
-        return res.json('耗材编号不能为空');
-    }
-
-    if (!deviceId) {
-        return res.json('设备编号不能为空');
-    }
-    var remoteDevie;
-    var consumable;
-
-    models.RemoteDevice.findOne({ where: { clientId: deviceId }, raw: true })
-        .then(doc => {
-            if (!doc) return Promise.reject(new Error('对应的设备不存在'));
-            remoteDevie = doc;
-            return Promise.resolve(doc);
-        })
-        .then(models.Consumable.findOne({ where: { serialNumber: id }, raw: true }).bind(models.Consumable))
-        .then(doc => {
-            if (!doc) return Promise.reject(new Error('对应的耗材不存在'));
-            consumable = doc;
-            return Promise.resolve(doc);
-        }).then(() => {
-            return models.DeviceUnionConsumable.findOne({ where: { consumableId: consumable.id, deviceId: remoteDevie.id }, raw: true });
-        })
-        .then((doc) => {
-            if (!doc)
-                return models.DeviceUnionConsumable.create({ consumableId: consumable.id, deviceId: remoteDevie.id })
-            else {
-                doc.times += 1;
-                return models.DeviceUnionConsumable.update(doc, { where: { id: doc.id }, fields: ['times'] });
-            }
-        })
-        .then(doc => {
-            res.json('扫码成功')
-        })
-        .catch(err => {
-            res.json('扫码失败：' + err.message);
-        })
-};
-
 exports.qrCode = function(req, res) {
     var id = req.query.id;
     var deviceId = req.query.deviceid;
@@ -202,8 +158,9 @@ exports.qrCode = function(req, res) {
         }).then(() => { //判断该耗材使用次数是否大于5
             return models.DeviceUnionConsumable.sum('times', { where: { consumableId: consumable.id } })
         }).then((times) => {
-            if (times >= 5) {
-                return Promise.reject(new Error('耗材最多只能使用5次'));
+            console.log(times);
+            if (times >= 50) {
+                return Promise.reject(new Error('耗材最多只能使用50次'));
             }
             return models.DeviceUnionConsumable.findOne({ where: { consumableId: consumable.id, deviceId: remoteDevie.id }, raw: true });
         })
