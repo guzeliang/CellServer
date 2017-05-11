@@ -44,8 +44,6 @@ app.use(function(req, res, next) {
 
 
 require("./routers/")(app);
-require("./task");
-// require("./socket");
 
 app.use(function(req, res, next) {
     var err = new Error('Not Found' + req.originalUrl);
