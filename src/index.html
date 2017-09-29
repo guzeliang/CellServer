@@ -1,14 +1,22 @@
 <html>
 
 <head>
-    <base href="/">
     <title>设备管理</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="stylesheet" href="/assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <base href="/">
+    <title>
+        管理
+    </title>
 </head>
 
 <body>
     <app></app>
+    <% if (htmlWebpackPlugin.options.metadata.isDevServer && htmlWebpackPlugin.options.metadata.HMR !== true) { %>
+        <script src="/webpack-dev-server.js"></script>
+    <% } %>
 </body>
 
 </html>

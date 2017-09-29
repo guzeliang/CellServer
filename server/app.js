@@ -28,6 +28,7 @@ app.use(require('cookie-session')({
 var env = process.env.NODE_ENV || 'production';
 
 app.use(express.static(path.join(path.resolve(__dirname, '../'), 'public')));
+app.use(express.static(path.join(path.resolve(__dirname, '../'), 'dist')));
 
 app.use(logger.log4js.connectLogger(logger.access, {
     level: 'auto',
