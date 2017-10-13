@@ -37,15 +37,15 @@ export class EditComponent implements OnInit, OnDestroy {
     public IsGasEnabled: boolean;
     public websocket: WebSocket = null;
     public In: PumpViewModel = {
-      PumpId: 1,
-      PumpName: 'Pump 1',
+      DeviceId: 1,
+      Name: 'Pump A',
       StartTime: moment().format('YYYY-MM-DD HH:mm:ss'),
       EndTime: moment().add(10, 'day').format('YYYY-MM-DD HH:mm:ss'),
       Direction: 'Anticlockwise',
       InOrOut : 0,
       InitialVolume: 10,
       InitialFlowRate: 5,
-      IsUseabled: true,
+      IsEnabled: true,
       ProcessMode: 'SingleMode',
       Period: 5,
       FirstSpan: 5,
@@ -53,15 +53,15 @@ export class EditComponent implements OnInit, OnDestroy {
       FlowRate: 5
     };
     public Out: PumpViewModel = {
-      PumpId: 3,
-      PumpName: 'Pump 3',
+      DeviceId: 3,
+      Name: 'Pump B',
       StartTime: moment().add(2, 'minute').format('YYYY-MM-DD HH:mm:ss'),
       EndTime: moment().add(10, 'day').format('YYYY-MM-DD HH:mm:ss'),
       Direction: 'Clockwise',
       InOrOut : 1,
       InitialVolume: 5,
       InitialFlowRate: 5,
-      IsUseabled: true,
+      IsEnabled: true,
       ProcessMode: 'SingleMode',
       Period: 5,
       FirstSpan: 5,
@@ -93,23 +93,23 @@ export class EditComponent implements OnInit, OnDestroy {
           console.log('onclose');
         };
         this.websocket.onmessage = function(evt) {
-            try {
-              let data = JSON.parse(evt.data);
-              switch (data.action) {
-                case 'saveScheduleBack': {
-                    if (data.data && data.data.code === 'success') {
-                        _this._router.navigate(['/iot/detail/v' +
-                        `/${_this.params['id']}/${_this.params['desc']}`]);
-                    } else {
-                        alert(data.data.code);
-                    }
-                } break;
-                default: break;
-              }
-            } catch (e) {
-              console.log(e.message);
+          try {
+            let data = JSON.parse(evt.data);
+            switch (data.action) {
+              case 'saveScheduleBack': {
+                if (data.data && data.data.code === 'success') {
+                    _this._router.navigate(['/iot/detail/v' +
+                    `/${_this.params['id']}/${_this.params['desc']}`]);
+                } else {
+                    alert(data.data.code);
+                }
+              } break;
+              default: break;
             }
-            console.log('message->' + evt.data);
+          } catch (e) {
+            console.log(e.message);
+          }
+          console.log('message->' + evt.data);
         };
 
         this.websocket.onerror = function(evt) {
@@ -151,7 +151,7 @@ export class EditComponent implements OnInit, OnDestroy {
     }
 
     public back(): void {
-        history.back();
+      history.back();
     }
 
     public setMode(mode: string, flag: string) {

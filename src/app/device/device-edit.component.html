@@ -27,11 +27,11 @@
                 <input [(ngModel)]='Cell' type='text' class='form-control' />
             </div>
             <div class='input-group bottom-gap'>
-                <span class='input-group-addon'>操作人</span>
+                <span class='input-group-addon'>操作人员</span>
                 <input [(ngModel)]='UserName' type='text' class='form-control' />
             </div>
             <div class='input-group'>
-                <span class='input-group-addon'>描述</span>
+                <span class='input-group-addon'>&nbsp;&nbsp;描&nbsp;&nbsp;&nbsp;述&nbsp;&nbsp;</span>
                 <input [(ngModel)]='Description' type='text' class='form-control' />
             </div>
         </div>
@@ -39,11 +39,11 @@
 
     <div class='panel panel-default'>
         <div class="panel-heading">
-            <h3 class="panel-title">{{In.PumpName}}</h3>
+            <h3 class="panel-title">{{In.Name}}</h3>
         </div>
         <div class="panel-body pumparea">
             <div class="input-group">
-                <span class="input-group-addon">初始量</span>
+                <span class="input-group-addon">初始加液</span>
                 <input type="text" class="form-control" [(ngModel)]='In.InitialVolume' />
                 <span class="input-group-addon">ml</span>
             </div>
@@ -65,7 +65,7 @@
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" [(ngModel)]='In.IsUseabled' />Is Enabled
+                        <input type="checkbox" [(ngModel)]='In.IsEnabled' />Is Enabled
                     </label>
                 </div>
             </div>
@@ -103,35 +103,35 @@
 
     <div class='panel panel-default'>
         <div class="panel-heading">
-            <h3 class="panel-title">{{Out.PumpName}}</h3>
+            <h3 class="panel-title">{{Out.Name}}</h3>
         </div>
         <div class="panel-body pumparea">
             <div class="input-group">
-                <span class="input-group-addon">初始量</span>
-                <input type="text" class="form-control" [(ngModel)]='Out.InitialVolume' />
-                <span class="input-group-addon">ml</span>
+              <span class="input-group-addon">初始加液</span>
+              <input type="text" class="form-control" [(ngModel)]='Out.InitialVolume' />
+              <span class="input-group-addon">ml</span>
             </div>
             <div class="input-group">
-                <span class="input-group-addon">初始流速</span>
-                <input type="text" class="form-control" [(ngModel)]='Out.InitialFlowRate' />
-                <span class="input-group-addon">ml/min</span>
+              <span class="input-group-addon">初始流速</span>
+              <input type="text" class="form-control" [(ngModel)]='Out.InitialFlowRate' />
+              <span class="input-group-addon">ml/min</span>
             </div>
             <div class='input-group'>
-                <div class='btn-group' style='margin-right:5px'>
-                    <button type='button' class='btn btn-default dropdown-toggle' scene='SingleMode' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                                <span class='btn-val'>{{Out.ProcessMode}}</span><span class='caret' style='margin-left:3px;'></span>
-                            </button>
-                    <ul class='dropdown-menu'>
-                        <li><a href='#' (click)="setMode('SingleMode', 'Out')" scene='SingleMode'>Single Vol</a></li>
-                        <li><a href='#' (click)="setMode('FixedVolumeMode', 'Out')" scene='FixedVolumeMode'>Fixed Vol</a></li>
-                        <li><a href='#' (click)="setMode('VariantVolumeMode', 'Out')" scene='VariantVolumeMode'>Variant vol</a></li>
-                    </ul>
-                </div>
-                <div class="checkbox">
-                    <label>
-                                  <input type="checkbox" [(ngModel)]='Out.IsUseabled' />Is Enabled
-                                </label>
-                </div>
+              <div class='btn-group' style='margin-right:5px'>
+                <button type='button' class='btn btn-default dropdown-toggle' scene='SingleMode' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                  <span class='btn-val'>{{Out.ProcessMode}}</span><span class='caret' style='margin-left:3px;'></span>
+                </button>
+                <ul class='dropdown-menu'>
+                  <li><a href='#' (click)="setMode('SingleMode', 'Out')" scene='SingleMode'>Single Vol</a></li>
+                  <li><a href='#' (click)="setMode('FixedVolumeMode', 'Out')" scene='FixedVolumeMode'>Fixed Vol</a></li>
+                  <li><a href='#' (click)="setMode('VariantVolumeMode', 'Out')" scene='VariantVolumeMode'>Variant vol</a></li>
+                </ul>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" [(ngModel)]='Out.IsEnabled' />Is Enabled
+                </label>
+              </div>
             </div>
             <div class="input-group   scene" [hidden]='Out.ProcessMode=="SingleMode" || Out.ProcessMode=="VariantVolumeMode"'>
                 <span class="input-group-addon">初始间隔</span>
@@ -166,57 +166,75 @@
     </div>
 
     <div class='panel panel-default'>
-        <div class='panel-heading'>
-            摇床
+      <div class='panel-heading'>
+        摇床
+      </div>
+      <div class='panel-body'>
+        <div class="checkbox">
+          <label>
+            <input [(ngModel)]='Rocker.IsEnabled' type="checkbox" />Is Enabled
+          </label>
         </div>
-        <div class='panel-body'>
-            <div class="checkbox">
-                <label>
-                      <input [(ngModel)]='Rocker.IsEnabled' type="checkbox" />Is Enabled
-                    </label>
-            </div>
-            <div class='input-group bottom-gap'>
-                <span class='input-group-addon'>速度</span>
-                <input [(ngModel)]='Rocker.Speed' type='text' class='form-control' />
-            </div>
-            <div class='input-group'>
-                <span class='input-group-addon'>角度</span>
-                <input [(ngModel)]='Rocker.Angle' type='text' class='form-control' />
-            </div>
+        <div class='input-group bottom-gap'>
+          <span class='input-group-addon'>速度</span>
+          <input [(ngModel)]='Rocker.Speed' type='text' class='form-control' />
         </div>
+        <div class='input-group'>
+          <span class='input-group-addon'>角度</span>
+          <input [(ngModel)]='Rocker.Angle' type='text' class='form-control' />
+        </div>
+      </div>
     </div>
     <div class='panel panel-default'>
-        <div class='panel-heading'>
-            气体
+      <div class='panel-heading'>
+          气体
+      </div>
+      <div class='panel-body'>
+        <div class="checkbox">
+          <label>
+            <input [(ngModel)]='Gas.IsEnabled' type="checkbox" />Is Enabled
+          </label>
         </div>
-        <div class='panel-body'>
-            <div class="checkbox">
-                <label>
-                      <input [(ngModel)]='Gas.IsEnabled' type="checkbox" />Is Enabled
-                    </label>
-            </div>
-            <div class='input-group bottom-gap'>
-                <span class='input-group-addon'>速度</span>
-                <input [(ngModel)]='Gas.FlowRate' type='text' class='form-control' />
-            </div>
-            <div class='input-group'>
-                <span class='input-group-addon'>浓度</span>
-                <input [(ngModel)]='Gas.Concentration' type='text' class='form-control' />
-            </div>
+        <div class='input-group bottom-gap'>
+          <span class='input-group-addon'>速度</span>
+          <input [(ngModel)]='Gas.FlowRate' type='text' class='form-control' />
         </div>
+        <div class='input-group'>
+          <span class='input-group-addon'>浓度</span>
+          <input [(ngModel)]='Gas.Concentration' type='text' class='form-control' />
+        </div>
+      </div>
     </div>
 
     <div class='panel panel-default'>
-        <div class='panel-heading'>
-            温度
+      <div class='panel-heading'>
+        温度
+      </div>
+      <div class='panel-body'>
+        <div class="checkbox">
+          <label>
+            <input [(ngModel)]='TemperatureGauge.IsEnabled' type="checkbox" />Is Enabled
+          </label>
         </div>
-        <div class='panel-body'>
-            <div class="checkbox">
-                <label>
-                    <input [(ngModel)]='IsTemperatureEnabled' type="checkbox" />Is Enabled
-                </label>
-            </div>
+        
+        <div class='input-group bottom-gap'>
+          <span class='input-group-addon'>容量等级</span>
+          <select class='form-control' width='50px'  [(ngModel)]="TemperatureGauge.Level" >
+              <option value="1">400ML</option>
+              <option value="2">500ML</option>
+              <option value="3">600ML</option>
+              <option value="4">700ML</option>
+              <option value="5">800ML</option>
+              <option value="6">900ML</option>
+              <option value="7">1000ML</option>
+            </select>
         </div>
+        <div class='input-group'>
+          <span class='input-group-addon'>&nbsp;&nbsp;温&nbsp;&nbsp;&nbsp;度&nbsp;&nbsp;</span>
+          <input [(ngModel)]='TemperatureGauge.Temperature' type='text' class='form-control' />
+          <span class="input-group-addon">℃</span>
+        </div>
+      </div>
     </div>
 </div>
 <footer></footer>

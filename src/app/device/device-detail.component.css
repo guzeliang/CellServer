@@ -60,7 +60,9 @@
 .gas-item span {
     float: left;
 }
-
+.gas-item .circle {
+  margin-left: 85px;
+}
 .gas-item .h-line {
     position: relative;
     top: 10px;
@@ -86,12 +88,26 @@
 }
 
 .gas-p {
-    border: 1px solid #000;
-    display: block;
-    width: 65px;
-    height: 20px;
-    margin: 0 10px;
-    text-align: center;
+  border: 1px solid #000;
+  display: block;
+  width: 65px;
+  height: 20px;
+  margin: 0 10px;
+  position: absolute;
+  top: -15px;
+  left: 25px;
+  text-align: center;
+}
+.gas-x {
+  border: 1px solid #000;
+  display: block;
+  width: 65px;
+  height: 20px;
+  margin: 0 10px;
+  position: absolute;
+  top: 15px;
+  left: 25px;
+  text-align: center;
 }
 
 .sys-area {

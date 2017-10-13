@@ -3,32 +3,21 @@ import { ActivatedRoute, Params , Router }   from '@angular/router';
 import { Headers, Http, Response } from '@angular/http';
 
 import { SysStatusEnum } from './SysStatusEnum';
-import 'tween.js';
+import  * as TWEEN from '@tweenjs/tween.js';
 import * as _ from 'underscore';
 import * as $ from 'jquery';
 
-// let styles = String(require('./device-detail.component.css'));
-// require('../../assets/images/isrunning_false.jpg');
-// require('../../assets/images/isrunning_true.jpg');
 import '../../assets/images/isrunning_false.jpg';
 import '../../assets/images/isrunning_true.jpg';
 
 @Component({
-    selector: 'detail',
-     styleUrls: [ './device-detail.component.css' ],
-    templateUrl: 'device-detail.component.html'
+  selector: 'detail',
+  styleUrls: [ './device-detail.component.css' ],
+  templateUrl: 'device-detail.component.html'
 })
 export class DeviceDetailComponent implements OnInit, OnDestroy {
-  public inCoords = { x: 100, y: 192 };
-  public outCoords = { x: 155, y: 22 };
   public tweenIn1: TWEEN.Tween;
-  public tweenIn2: TWEEN.Tween;
-  public tweenIn3: TWEEN.Tween;
-  public tweenIn4: TWEEN.Tween;
   public tweenOut1: TWEEN.Tween;
-  public tweenOut2: TWEEN.Tween;
-  public tweenOut3: TWEEN.Tween;
-  public tweenOut4: TWEEN.Tween;
   public tweenRocker1: TWEEN.Tween;
   public tweenRocker2: TWEEN.Tween;
   public websocket: WebSocket = null;
@@ -37,34 +26,41 @@ export class DeviceDetailComponent implements OnInit, OnDestroy {
   public Model: any = {
     Id: '',
     CurrStatus: 'Unknown',
-    Temperature: 0,
+    Temperature: {
+      Temperature: 0
+    },
     Description: '',
     CurrVolume: 0,
     Rocker: {
-        Speed: 0,
-        Angle: 0,
-        IsRocking: false
+      Speed: 0,
+      Angle: 0,
+      IsRocking: false
+    },
+    Gas: {
+      IsEnabled: true,
+      FlowRate: 400,
+      Concentration: 5.2
     },
     In: {
-        PumpId: 1,
-        Direction: 0,
-        CurrFlowRate: 0,
-        IsRunning: false,
-        img: '/images/isrunning_false.jpg',
-        StatusInfo: null
+      PumpId: 1,
+      Direction: 0,
+      CurrFlowRate: 0,
+      IsRunning: false,
+      img: '/images/isrunning_false.jpg',
+      StatusInfo: null
     },
     Out: {
-        PumpId: 3,
-        Direction: 1,
-        CurrFlowRate: 0,
-        IsRunning: false,
-        img: '/images/isrunning_false.jpg',
-        StatusInfo: null
+      PumpId: 3,
+      Direction: 1,
+      CurrFlowRate: 0,
+      IsRunning: false,
+      img: '/images/isrunning_false.jpg',
+      StatusInfo: null
     }
   };
   constructor(
-      private _router: Router,
-      private route: ActivatedRoute
+    private _router: Router,
+    private route: ActivatedRoute
   ) {}
 
   public initWS() {
@@ -75,43 +71,43 @@ export class DeviceDetailComponent implements OnInit, OnDestroy {
     this.websocket = new WebSocket(`ws://${location.hostname}:${port}`);
 
     this.websocket.onopen = function(evt){
-        console.log('open');
-        
-        this.send(JSON.stringify({
-          action: 'browser_first_conn', 
-          data: {
-            clientId: id
-          }
-        }));
+      console.log('open');
+      
+      this.send(JSON.stringify({
+        action: 'browser_first_conn', 
+        data: {
+          clientId: id
+        }
+      }));
     };
     this.websocket.onclose = (evt) => {
         console.log('onclose');
     };
     this.websocket.onmessage = (evt) => {
-        try {
-            let data = JSON.parse(evt.data);
-            console.log(data);
-            switch (data.action) {
-                case 'syncData': {
-                    _this.render(data.data);
-                    break;
-                }
-                case 'execCmdFailed' : {
-                    alert('命令执行失败');
-                    break;
-                }
-                case 'qr': {
-                    $('#qrInfo').show();
-                    break;
-                }
-                default: break;
-            }
-        } catch (e) {
-          console.log(e.message);
+      try {
+        let data = JSON.parse(evt.data);
+        console.log(data);
+        switch (data.action) {
+          case 'syncData': {
+            _this.render(data.data);
+            break;
+          }
+          case 'execCmdFailed' : {
+            alert('命令执行失败');
+            break;
+          }
+          case 'qr': {
+            $('#qrInfo').show();
+            break;
+          }
+          default: break;
         }
+      } catch (e) {
+        console.log(e.message);
+      }
     };
     this.websocket.onerror = (evt) => {
-        console.log('onerror');
+      console.log('onerror');
     };
   }
 
@@ -121,67 +117,66 @@ export class DeviceDetailComponent implements OnInit, OnDestroy {
     }
 
     if (data.CurrStatus === SysStatusEnum.Discarded) {
-        return this._router.navigate([`/iot/edit/v/${this.params.id}/${this.params.desc}`]);
+      return this._router.navigate([`/iot/edit/v/${this.params.id}/${this.params.desc}`]);
     }
 
     this.switchCommand(data.CurrStatus);
     
     this.Model.CurrStatus = data.CurrStatus;
     this.Model.CurrVolume = data.CurrVolume;
-    this.Model.Temperature = data.Temperature;
+    this.Model.Temperature.Temperature = _.isObject(data.Temperature) 
+      ? data.Temperature.Temperature : data.Temperature;
     
     this.Model.Rocker.Speed = data.Rocker.Speed;
     this.Model.Rocker.Angle = data.Rocker.Angle;
-    if (this.Model.Rocker.IsRocking !== (data.Rocker.Speed > 0)) {
-      this.Model.Rocker.IsRocking = data.Rocker.Speed > 0;
+    if (this.Model.Rocker.IsRunning !== (data.Rocker.Speed > 0)) {
+      this.Model.Rocker.IsRunning = data.Rocker.Speed > 0;
 
-      if (this.Model.Rocker.IsRocking) {
-          this.tweenRocker1.start();
+      if (this.Model.Rocker.IsRunning) {
+        this.tweenRocker1.start();
       } else {
-          this.tweenRocker1.stop();
+        this.tweenRocker1.stop();
       }
     }
 
-    this.Model.In.CurrFlowRate = data.In.CurrFlowRate;
+    this.Model.In.CurrFlowRate = data.In.RealTimeFlowRate;
     this.Model.In.StatusInfo = data.In.StatusInfo || '';
 
     if (this.Model.In.IsRunning !== !!data.In.IsRunning) {
       this.Model.In.IsRunning = !!data.In.IsRunning;
       if (this.Model.In.IsRunning) {
-          this.tweenIn1.start();
+        this.startPumpInAnimate();
       } else {
-          this.tweenIn1.stop();
+        this.stopPumpInAnimate();
       }
     }
 
-    this.Model.Out.CurrFlowRate = data.Out.CurrFlowRate;
+    this.Model.Out.CurrFlowRate = data.Out.RealTimeFlowRate;
     this.Model.Out.StatusInfo = data.Out.StatusInfo || '';
 
     if (this.Model.Out.IsRunning !== !!data.Out.IsRunning) {
       this.Model.Out.IsRunning = !!data.Out.IsRunning;
 
       if (this.Model.Out.IsRunning) {
-          this.tweenOut1.start();
+        this.startPumpOutAnimate();
       } else {
-          this.tweenOut1.stop();
+        this.stopPumpOutAnimate();
       }
     }
   } 
 
   public ngOnInit() { 
-      this.route.params.forEach( (param: Params) => {
-          _.extend(this.params, param);
-      });
-      this.initWS();
-      this.initPumpInAnimate();
-      this.initPumpOutAnimate();
-      this.initRockerAnimate();
-      window.setInterval(this.animate, 16);
+    this.route.params.forEach( (param: Params) => {
+      _.extend(this.params, param);
+    });
+    this.initWS();
+    this.initRockerAnimate();
+    window.setInterval(this.animate, 16);
   }
 
   public ngOnDestroy(): void {
     if (this.websocket) {
-        this.websocket.close();
+      this.websocket.close();
     }
 
     this.stopPumpInAnimate();
@@ -190,226 +185,120 @@ export class DeviceDetailComponent implements OnInit, OnDestroy {
   }
 
   public animate(time: number) {
-      TWEEN.update(time);
+    TWEEN.update(time);
   }
 
   public stopPumpInAnimate() {
+    if (this.tweenIn1) {
       this.tweenIn1.stop();
-      this.inCoords = { x: 100, y: 192 };
+    }
   }
 
   public stopPumpOutAnimate() {
-    this.tweenOut1.stop();
-    this.outCoords = { x: 155, y: 22 };
-      
-    $('#pumpOutRun').css({
-      top: 22,
-      right: 155
-    });
+    if (this.tweenOut1) {
+      this.tweenOut1.stop();
+    }
   }
 
   public stopRockerAnimate() {
-      this.tweenRocker1.stop();
+    this.tweenRocker1.stop();
   }
 
-  public initPumpInAnimate() {
-      let _this = this;
-      this.tweenIn1 = new TWEEN.Tween(this.inCoords)
-        .to({ x: 116, y: 192 }, 500)
-        .onStop(function() {
-            _this.inCoords = { x: 100, y: 192 };
-            this.y = _this.inCoords.y;
-            this.x = _this.inCoords.x;
-            $('#pumpInRun').css({
-                top: this.y,
-                left: this.x
-            });
+  public transformAnimate(end, time, element, start) {
+    let coords = start; 
+    let _this = this;
+    return new Promise(function(resolve, reject) {
+      _this.tweenIn1 = new TWEEN.Tween(coords) 
+        .to(end, time) 
+        .onUpdate(function() { 
+          $(element).css({ top: coords.y, left: coords.x });
         })
-        .onUpdate(function() {
-            $('#pumpInRun').css({
-                top: this.y,
-                left: this.x
-            });
-        });
-      this.tweenIn2  = new TWEEN.Tween(this.inCoords)
-        .to({ x: 116, y: -6 }, 2000)
         .onStop(function() {
-          _this.inCoords = { x: 100, y: 192 };
-          this.y = _this.inCoords.y;
-          this.x = _this.inCoords.x;
-          $('#pumpInRun').css({
-              top: this.y,
-              left: this.x
-          });
+          reject(new Error('stop'));
         })
-        .onUpdate(function() {
-          $('#pumpInRun').css({
-              top: this.y,
-              left: this.x
-          });
-        });
-
-      this.tweenIn3  = new TWEEN.Tween(this.inCoords)
-        .to({ x: 155, y: -6 }, 500)
-        .onStop(function() {
-          _this.inCoords = { x: 100, y: 192 };
-          this.y = _this.inCoords.y;
-          this.x = _this.inCoords.x;
-          $('#pumpInRun').css({
-              top: this.y,
-              left: this.x
-          });
-        })
-        .onUpdate(function() {
-          $('#pumpInRun').css({
-              top: this.y,
-              left: this.x
-          });
-        });
-
-      this.tweenIn4  = new TWEEN.Tween(this.inCoords)
-        .to({ x: 155, y: 22 }, 500)
         .onComplete(function() {
-          _this.inCoords = { x: 100, y: 192 };
-          this.y = _this.inCoords.y;
-          this.x = _this.inCoords.x;
-          $('#pumpInRun').css({
-              top: this.y,
-              left: this.x
-          });
-
-          _this.tweenIn1.delay(500).start();
+          resolve(coords);
         })
-        .onStop(function() {
-          _this.inCoords = { x: 100, y: 192 };
-          this.y = _this.inCoords.y;
-          this.x = _this.inCoords.x;
-          $('#pumpInRun').css({
-              top: this.y,
-              left: this.x
-          });
-        })
-        .onUpdate(function() {
-          $('#pumpInRun').css({
-              top: this.y,
-              left: this.x
-          });
-        });
-
-      _this.tweenIn1.chain(_this.tweenIn2);
-      _this.tweenIn2.chain(_this.tweenIn3);
-      _this.tweenIn3.chain(_this.tweenIn4);
+        .start();
+    });
   }
 
-  public initPumpOutAnimate() {
-      let _this = this;
-      this.tweenOut1 = new TWEEN.Tween(this.outCoords)
-        .to({ x: 155, y: -6 }, 500)
-        .onStop(function() {
-          _this.outCoords =  { x: 155, y: 22 };
-          this.y = _this.outCoords.y;
-          this.x = _this.outCoords.x;
-          $('#pumpOutRun').css({
-              top: 192,
-              right: 100
-          });
+  public transformOutAnimate(end, time, element, start) {
+    let coords = start; 
+    let _this = this;
+    return new Promise(function(resolve, reject) {
+      _this.tweenOut1 = new TWEEN.Tween(coords) 
+        .to(end, time) 
+        .onUpdate(function() { 
+          $(element).css({ top: coords.y, right: coords.x });
         })
-        .onUpdate(function() {
-          $('#pumpOutRun').css({
-              top: this.y,
-              right: this.x
-          });
-        });
-      this.tweenOut2 = new TWEEN.Tween(this.outCoords)
-        .to({ x: 116, y: -6 }, 500)
         .onStop(function() {
-          _this.outCoords =  { x: 155, y: 22 };
-          this.y = _this.outCoords.y;
-          this.x = _this.outCoords.x;
-          $('#pumpOutRun').css({
-              top: 192,
-              right: 100
-          });
-        })
-        .onUpdate(function() {
-          $('#pumpOutRun').css({
-              top: this.y,
-              right: this.x
-          });
-        });
-
-      this.tweenOut3 = new TWEEN.Tween(this.outCoords)
-          .to({ x: 116, y: 192 }, 2000)
-          .onStop(function() {
-            _this.outCoords =  { x: 155, y: 22 };
-            this.y = _this.outCoords.y;
-            this.x = _this.outCoords.x;
-            $('#pumpOutRun').css({
-                top: 192,
-                right: 100
-            });
-          })
-          .onUpdate(function() {
-            $('#pumpOutRun').css({
-                top: this.y,
-                right: this.x
-            });
-          });
-
-      this.tweenOut4 = new TWEEN.Tween(this.outCoords)
-        .to({ x: 100, y: 192 }, 500)
-        .onStop(function() {
-          _this.outCoords =  { x: 155, y: 22 };
-          this.y = _this.outCoords.y;
-          this.x = _this.outCoords.x;
-          $('#pumpOutRun').css({
-              top: 192,
-              right: 100
-          });
+          reject(new Error('stop'));
         })
         .onComplete(function() {
-          _this.outCoords =  { x: 155, y: 22 };
-          this.y = _this.outCoords.y;
-          this.x = _this.outCoords.x;
-          $('#pumpOutRun').css({
-              top: 192,
-              right: 100
-          });
-
-          _this.tweenOut1.delay(500).start();
+          console.log('onComplete');
+          resolve(coords);
         })
-        .onUpdate(function() {
-          $('#pumpOutRun').css({
-              top: this.y,
-              right: this.x
-          });
-        });
+        .start();
+    });
+  }
 
-      this.tweenOut1.chain(this.tweenOut2);
-      this.tweenOut2.chain(this.tweenOut3);
-      this.tweenOut3.chain(this.tweenOut4);    
+  public startPumpInAnimate() {
+    let xcoords = { x: 100, y: 192 }; 
+    let ele = document.getElementById('pumpInRun');
+    let _this = this;
+    this.transformAnimate({ x: 116, y: 192 }, 300, ele, xcoords)
+    .then(_this.transformAnimate.bind(_this, { x: 116, y: -6 }, 2000, ele))
+    .then(_this.transformAnimate.bind(_this, { x: 155, y: -6 }, 500, ele))
+    .then(_this.transformAnimate.bind(_this, { x: 155, y: 22 }, 500, ele))
+    .then(function(ret) {
+      console.log('end');
+      _this.startPumpInAnimate();
+    }).catch(function(err) {
+      console.log('err' + err.message);
+      $(ele).css({ top: 192, left: 100 });
+    });
+  }
+
+  public startPumpOutAnimate() {
+    let xcoords = { x: 155, y: 22 }; 
+    let ele = document.getElementById('pumpOutRun');
+    let _this = this;
+    this.transformOutAnimate({ x: 155, y: -6 }, 300, ele, xcoords)
+    .then(_this.transformOutAnimate.bind(_this, { x: 116, y: -6 }, 500, ele))
+    .then(_this.transformOutAnimate.bind(_this, { x: 116, y: 192 }, 2000, ele))
+    .then(_this.transformOutAnimate.bind(_this, { x: 100, y: 192 }, 500, ele))
+    .then(function(ret) {
+      _this.startPumpOutAnimate();
+    }).catch(function(err) {
+      $(ele).css({ top: 192, right: 100 });
+    });
   }
 
   public initRockerAnimate() {
-      let _this = this;
-      this.tweenRocker1 = new TWEEN.Tween( $('#rockerTop').get(0).dataset )
-                  .to( { rotation: 8 }, 1000 )
-                  .onUpdate( function() {
-                      _this.updateBox( $('#rockerTop').get(0), this );
-                  });
-      this.tweenRocker2 = new TWEEN.Tween( $('#rockerTop').get(0).dataset )
-                  .to( { rotation: -8 }, 1000 )
-                  .onUpdate( function() {
-                      _this.updateBox(  $('#rockerTop').get(0), this );
-                  });
-      
-      this.tweenRocker1.chain(this.tweenRocker2);
-      this.tweenRocker2.chain(this.tweenRocker1);
+    let _this = this;
+    this.tweenRocker1 = new TWEEN.Tween( $('#rockerTop').get(0).dataset )
+      .to( { rotation: 8 }, 1000 )
+      .onUpdate( function() {
+        _this.updateBox( $('#rockerTop').get(0), this );
+      });
+    this.tweenRocker2 = new TWEEN.Tween( $('#rockerTop').get(0).dataset )
+      .to( { rotation: -8 }, 1000 )
+      .onUpdate( function() {
+        _this.updateBox( $('#rockerTop').get(0), this );
+      });
+    
+    this.tweenRocker1.chain(this.tweenRocker2);
+    this.tweenRocker2.chain(this.tweenRocker1);
   }
 
   public updateBox(box: HTMLElement, params: any) {
+    if (!box  || !box.style ) {
+      return;
+    }
+
     let s = box.style;
-    let transform = 'rotate(' + Math.floor( params.rotation ) + 'deg)';
+    let transform = 'rotate(' + Math.floor( (<any> box.dataset).rotation ) + 'deg)';
     s.webkitTransform = transform;
     // s.mozTransform = transform;
     s.transform = transform;

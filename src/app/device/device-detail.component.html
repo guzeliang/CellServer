@@ -25,28 +25,12 @@
             <div class='gas-area'>
                 <div class='gas-item'>
                     <span class='gas-name'>AIR</span>
-                    <span class='gas-p'>0.001pm</span>
+                    <span class='gas-p'>{{Model.Gas.FlowRate}}ml/min</span>
+                    <span class='gas-x'>{{Model.Gas.Concentration}}ppm</span>
                     <span class='circle' style='background:blue'></span>
                     <span class='h-line'></span>
                 </div>
-                <div class='gas-item'>
-                    <span class='gas-name'>O2</span>
-                    <span class='gas-p'></span>
-                    <span class='circle' style='background:blue'></span>
-                    <span class='h-line'></span>
-                </div>
-                <div class='gas-item'>
-                    <span class='gas-name'>N2</span>
-                    <span class='gas-p'></span>
-                    <span class='circle' style='background:blue'></span>
-                    <span class='h-line'></span>
-                </div>
-                <div class='gas-item'>
-                    <span class='gas-name'>CO2</span>
-                    <span class='gas-p'></span>
-                    <span class='circle' style='background:blue'></span>
-                    <span class='h-line'></span>
-                </div>
+                
                 <div class='v-line'></div>
             </div>
             <div class='sys-area'>
@@ -54,7 +38,7 @@
                 <div class='sys-item'>
                     <span class='h-line' style='position:relative;top:10px; width:30px;'></span>
                     <span class='sys-name'>温度</span>
-                    <span class='sys-p'>{{Model.Temperature}}℃</span>
+                    <span class='sys-p'>{{Model.Temperature.Temperature}}℃</span>
                 </div>
                 <div class='sys-item'>
                     <span class='h-line' style='position:relative;top:10px; width:30px;'></span>
