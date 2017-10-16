@@ -110,89 +110,90 @@ export class StatComponent implements OnInit {
     }
 
     private initChart(xdata: any, canvasId: string): Chart {
-        console.log(xdata);
-        let cvs = document.getElementById(canvasId) as HTMLCanvasElement;
-        let ctx = cvs.getContext('2d');
-        let params: any = new URLSearchParams(location.search.slice(1));
-        let temperaturemode = params.get('temperaturemode');
+      console.log(xdata);
+      let cvs = document.getElementById(canvasId) as HTMLCanvasElement;
+      let ctx = cvs.getContext('2d');
+      let params: any = new URLSearchParams(location.search.slice(1));
+      let temperaturemode = params.get('temperaturemode');
 
-        let ds = [{
-            label: '# ' + this.type,
-            pointRadius: 0,
-            data: xdata.data,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255,99,132,1)',
-            borderWidth: 1,
-            yAxisID: '1y'
-        }];
-        if (params.temperaturemode === '3') {
-            if (xdata.data0) {
-                ds.push({
-                    label: '# temperature2',
-                    pointRadius: 0,
-                    data: xdata.data0 || [],
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1,
-                    yAxisID: '1y'
-                });
-            }
-            if (xdata.data2) {
-                ds.push({
-                    label: '# temperature3',
-                    pointRadius: 0,
-                    data: xdata.data2 || [],
-                    backgroundColor: 'rgba(255, 206, 86, 0.2)',
-                    borderColor: 'rgba(255, 206, 86, 1)',
-                    borderWidth: 1,
-                    yAxisID: '2y'
-                });
-            }
-        }
-        if (this.type === 'gas') {
-            if (xdata.data0) {
-                ds.push({
-                    label: '# flowrate',
-                    pointRadius: 0,
-                    data: xdata.data0 || [],
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1,
-                    yAxisID: '2y'
-                });
-            }
-        }
+      let ds = [{
+          label: '# ' + this.type,
+          pointRadius: 0,
+          data: xdata.data,
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255,99,132,1)',
+          borderWidth: 1,
+          yAxisID: '1y'
+      }];
+      if (params.temperaturemode === '3') {
+          if (xdata.data0) {
+              ds.push({
+                  label: '# temperature2',
+                  pointRadius: 0,
+                  data: xdata.data0 || [],
+                  backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                  borderColor: 'rgba(54, 162, 235, 1)',
+                  borderWidth: 1,
+                  yAxisID: '1y'
+              });
+          }
+          if (xdata.data2) {
+              ds.push({
+                  label: '# temperature3',
+                  pointRadius: 0,
+                  data: xdata.data2 || [],
+                  backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                  borderColor: 'rgba(255, 206, 86, 1)',
+                  borderWidth: 1,
+                  yAxisID: '2y'
+              });
+          }
+      }
+      if (this.type === 'gas') {
+          if (xdata.data0) {
+              ds.push({
+                  label: '# flowrate',
+                  pointRadius: 0,
+                  data: xdata.data0 || [],
+                  backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                  borderColor: 'rgba(54, 162, 235, 1)',
+                  borderWidth: 1,
+                  yAxisID: '2y'
+              });
+          }
+      }
 
-       return new Chart(cvs.getContext('2d'), {
-            type: 'line',
-            data: {
-                labels: xdata.time,
-                datasets: ds
+      let config = {
+        type: 'line',
+        data: {
+            labels: xdata.time,
+            datasets: ds
+        },
+        options: {
+            hover: {
+                mode: 'label'
             },
-            options: {
-                hover: {
-                    mode: 'label'
-                },
-                scales: {
-                    yAxes: [{
-                        id: '1y',
-                        type: 'linear',
-                        position: 'left'
-                    }, {
-                        id: '2y',
-                        type: 'linear',
-                        position: 'right',
-                        // ticks: {
-                        //     //设置y坐标的后缀
-                        //     callback: function(value, index, values) {
-                        //         return value;
-                        //     }
-                        // }
-                    }]
-                }
+            scales: {
+                yAxes: [{
+                    id: '1y',
+                    type: 'linear',
+                    position: 'left'
+                }, {
+                    id: '2y',
+                    type: 'linear',
+                    position: 'right',
+                    // ticks: {
+                    //     //设置y坐标的后缀
+                    //     callback: function(value, index, values) {
+                    //         return value;
+                    //     }
+                    // }
+                }]
             }
-        });
+        }
+      };
 
+      return new Chart(cvs.getContext('2d'), config);
     }
 
     private init(): void {

@@ -13,6 +13,7 @@ import { PaginationService } from 'ng2-pagination/dist/pagination.service';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './common/app.header.component';
 import { FooterComponent } from './common/app.footer.component';
+import { PagingComponent } from './common/paging.component';
 import { NotFoundComponent } from './common/notfound.component';
 
 import { DevicesComponent } from './device/devices.component';
@@ -34,6 +35,7 @@ import { StatService } from './stat/stat.service';
     declarations: [ 
         HeaderComponent, 
         FooterComponent, 
+        PagingComponent,
         AppComponent, 
         DevicesComponent, 
         HelloComponent,

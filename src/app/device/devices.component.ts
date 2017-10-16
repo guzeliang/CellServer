@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
+import { ActivatedRoute } from '@angular/router';
 
 import { Device } from './device';
 import { DeviceService } from './device.service';
@@ -16,7 +17,10 @@ export class DevicesComponent implements OnInit {
     public pageIndex: number = 1;
     public searchWord: string= '';
 
-    constructor( private http: Http, private service: DeviceService) {
+    @ViewChild('pager') public  pager;
+
+    constructor(private http: Http, private route: ActivatedRoute,  private service: DeviceService
+      ) {
     }
     
     public search() {
@@ -28,6 +32,7 @@ export class DevicesComponent implements OnInit {
       }).then( (res) => {
         this.devices = res.json().result as Device[];
         this.recordCount = res.json().total;
+        this.pager.render(this.pageSize, this.recordCount);
       }).catch((err) => console.log(err.message || err));
     }
     
@@ -43,19 +48,34 @@ export class DevicesComponent implements OnInit {
     
     public pageChange(pageIndex: number) {
       this.pageIndex = pageIndex;
-      this.service.page({pagesize: this.pageSize, pageindex: pageIndex, keyword: this.searchWord})
+      this.service.page({
+          pagesize: this.pager.pageSize, 
+          pageindex: pageIndex, 
+          keyword: this.searchWord
+        })
         .then((res) => {
             this.devices = res.json().result as Device[];
             this.recordCount = res.json().total;
+            this.pager.render(this.pageIndex, this.recordCount);
         }).catch((err) => console.log(err.message || err));
     }
     
     public ngOnInit(): void {
-      this.service.page({pagesize: this.pageSize, pageindex: this.pageIndex})
-          .then((res) => {
-            this.devices = res.json().result as  Device[];
-            this.recordCount = res.json().total;
-          })
-          .catch((err) => console.log(err.message || err));
-      }
+      this.route.params.subscribe((params) => {
+        if (params['id'] && +params['id']) {
+          this.pageIndex = +params['id'];
+          console.log('xxxxx');
+        } else {
+          this.pageIndex = 1;
+        }
+
+        this.service.page({pagesize: this.pager.pageSize, pageindex: this.pageIndex})
+        .then((res) => {
+          this.devices = res.json().result as  Device[];
+          this.recordCount = res.json().total;
+          this.pager.render(this.pageIndex, this.recordCount);
+        })
+        .catch((err) => console.log(err.message || err));
+      });
+    };
 }

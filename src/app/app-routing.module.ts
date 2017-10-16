@@ -10,6 +10,7 @@ import { NotFoundComponent } from './common/notfound.component';
 
 export const appRoutes: Routes = [
   { path: 'devices',  component: DevicesComponent },
+  { path: 'devices/page/:id',  component: DevicesComponent },
   { path: 'hello', component: HelloComponent },
   { path: 'iot/stat/v/:id', component: StatComponent },
   { path: 'iot/edit/v/:id/:desc', component: EditComponent },

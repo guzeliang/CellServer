@@ -45,7 +45,7 @@
                 </tbody>
             </table>
         </div>
-        <pagination-controls (pageChange)="pageChange($event)"></pagination-controls>
+        <pagination #pager pageSize=10  (pageChange)="pageChange($event)"></pagination>
     </div>
 </div>
 <footer></footer>
