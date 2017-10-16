@@ -13,7 +13,6 @@ import * as _ from 'underscore';
 export class DevicesComponent implements OnInit {
     public devices: Device[];
     public recordCount: number;
-    public pageSize: number = 10;
     public pageIndex: number = 1;
     public searchWord: string= '';
 
@@ -26,13 +25,13 @@ export class DevicesComponent implements OnInit {
     public search() {
       this.pageIndex = 1;
       this.service.page({
-        pagesize: this.pageSize, 
+        pagesize: this.pager.pageSize, 
         pageindex: this.pageIndex, 
         keyword: this.searchWord
       }).then( (res) => {
         this.devices = res.json().result as Device[];
         this.recordCount = res.json().total;
-        this.pager.render(this.pageSize, this.recordCount);
+        this.pager.render(this.pageIndex, this.recordCount);
       }).catch((err) => console.log(err.message || err));
     }
     
@@ -64,7 +63,6 @@ export class DevicesComponent implements OnInit {
       this.route.params.subscribe((params) => {
         if (params['id'] && +params['id']) {
           this.pageIndex = +params['id'];
-          console.log('xxxxx');
         } else {
           this.pageIndex = 1;
         }
