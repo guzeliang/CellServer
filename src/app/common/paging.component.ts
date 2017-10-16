@@ -34,6 +34,7 @@ export class PagingComponent {
   @Input() public pageSize: number = 20;
   @Input() public interval: number = 3;
   @Input() public isHiddenWhenEmpty: boolean = true;
+  @Input() public isModifyHash: boolean = true;
   @Input() public condition: any;
 
   public pageIndex: number;
@@ -108,6 +109,9 @@ export class PagingComponent {
       }
     }
 
+    if (!this.isModifyHash) {
+      return;
+    }
     let arr = location.hash.split('/page/');
 
     if (arr.length === 2) {
