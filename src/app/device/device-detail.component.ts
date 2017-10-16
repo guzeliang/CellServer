@@ -3,7 +3,8 @@ import { ActivatedRoute, Params , Router }   from '@angular/router';
 import { Headers, Http, Response } from '@angular/http';
 
 import { SysStatusEnum } from './SysStatusEnum';
-import  * as TWEEN from '@tweenjs/tween.js';
+// tslint:disable-next-line:no-var-requires
+let TWEEN = require('tween.js');
 import * as _ from 'underscore';
 import * as $ from 'jquery';
 
