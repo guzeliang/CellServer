@@ -22,7 +22,9 @@ import { Location } from '@angular/common';
        <li><a href='javascript:void(0)' (click)='pagex($event)' mode='last'>末页</a></li> 
        <li>
          <span class='pageinput'>
-           <input class='pagetxt' type='text' [(ngModel)]='goPageIndex' size='2' value='1'>
+           <input class='pagetxt' type='text' 
+            [(ngModel)]='goPageIndex' 
+            (keydown.enter)='goPage()' size='2' value='1'>
            <a href='javascript:void(0)' (click)='goPage()'> GO </a>
          </span>
        </li>
