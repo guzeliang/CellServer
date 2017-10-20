@@ -31,7 +31,8 @@ import { Location } from '@angular/common';
  `
 })
 export class PagingComponent {
-  @Input() public pageSize: number = 20;
+  
+  @Input() public pageSize: number;
   @Input() public interval: number = 3;
   @Input() public isHiddenWhenEmpty: boolean = true;
   @Input() public isModifyHash: boolean = true;
@@ -56,7 +57,7 @@ export class PagingComponent {
     }
 
     let index = this.goPageIndex;
-    this.pageChange.emit(index);
+    this.pageChange.emit(+index);
     // this.render(index, this.recordCount);
   }
 
@@ -84,7 +85,8 @@ export class PagingComponent {
     this.recordCount = allCount;
     this.pagecount = Math.ceil(allCount / this.pageSize);
     this.pageIndex = currIndex;
-
+    this.goPageIndex = this.pageIndex;
+    
     this.displayPages.length = 0;
 
     let absdiff = (this.interval - 1) / 2;
@@ -102,7 +104,7 @@ export class PagingComponent {
       start = this.pagecount - this.interval + 1;
       end = this.pagecount;
     }
-
+    
     for (let i = start; i <= end ; i++) {
       if (i > 0 && i <= this.pagecount) {
         this.displayPages.push(i);

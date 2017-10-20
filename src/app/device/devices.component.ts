@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { ActivatedRoute } from '@angular/router';
 
@@ -10,7 +10,7 @@ import * as _ from 'underscore';
     selector: 'devices',
     templateUrl: './devices.component.html'
 })
-export class DevicesComponent implements OnInit {
+export class DevicesComponent implements AfterViewInit {
     public devices: Device[];
     public recordCount: number;
     public pageIndex: number = 1;
@@ -59,14 +59,13 @@ export class DevicesComponent implements OnInit {
         }).catch((err) => console.log(err.message || err));
     }
     
-    public ngOnInit(): void {
+    public ngAfterViewInit() {
       this.route.params.subscribe((params) => {
         if (params['id'] && +params['id']) {
           this.pageIndex = +params['id'];
         } else {
           this.pageIndex = 1;
         }
-
         this.service.page({pagesize: this.pager.pageSize, pageindex: this.pageIndex})
         .then((res) => {
           this.devices = res.json().result as  Device[];
@@ -75,5 +74,5 @@ export class DevicesComponent implements OnInit {
         })
         .catch((err) => console.log(err.message || err));
       });
-    };
+    }
 }

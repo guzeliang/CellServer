@@ -29,10 +29,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let device of devices  | paginate: {
-                                                      itemsPerPage: pageSize,
-                                                      currentPage: pageIndex,
-                                                      totalItems: recordCount }">
+                    <tr *ngFor="let device of devices">
                         <td class="col-xs-3">{{device.desc}}</td>
                         <td class="col-xs-3">{{device.currStatus}}</td>
                         <td class="col-xs-3">{{device.addr}}</td>
@@ -45,7 +42,7 @@
                 </tbody>
             </table>
         </div>
-        <pagination #pager pageSize=10  (pageChange)="pageChange($event)"></pagination>
+        <pagination #pager pageSize=10 (pageChange)="pageChange($event)"></pagination>
     </div>
 </div>
 <footer></footer>
