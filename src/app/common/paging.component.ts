@@ -58,8 +58,8 @@ export class PagingComponent {
       this.goPageIndex = this.pagecount;
     }
 
-    let index = this.goPageIndex;
-    this.pageChange.emit(+index);
+    let index = +this.goPageIndex || 1;
+    this.pageChange.emit(index);
     // this.render(index, this.recordCount);
   }
 
